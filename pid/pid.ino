@@ -5,19 +5,20 @@ MPU9250 mpu;
 float gyroXOffset = 0, gyroYOffset = 0, gyroZOffset = 0;
 float angle = -7.12; //-45;
 
+bool debug = false;
+
 // Define PID parameters
-double Kp = 150;  // Proportional gain
+double Kp = 40;  // Proportional gain
 double Ki = 0;//.000001;//0.00005;  // Integral gain
-double Kd = 65; //250;//.01;//0010;  // Derivative gain
+double Kd = 10; //250;//.01;//0010;  // Derivative gain
 int direction = 0;
 
-float alpha = .95;
+float alpha = .99;
 
 // Variables for PID calculations
 double setpoint = 100.0;  // Desired value
-double input = 0.0;       // Current value (e.g., from a sensor)
 double output = 0.0;      // Output signal to the actuator
-double prevAngle = 0.0;   // Previous input value
+double prevError = 0.0;   // Previous input value
 double integral = 0.0;    // Integral accumulator
 
 double lastPrint = millis();
@@ -126,29 +127,49 @@ void loop() {
   angle -= (mpu.getGyroZ() - gyroZOffset) * elapsedTime;
 
   // Derivative term
-  double derivative = (angle - prevAngle) / elapsedTime;
+  double derivative = (error - prevError) / elapsedTime;
   double derivativeTerm = Kd * derivative;
-  prevAngle = angle;
+
+  
+  Serial.print(millis());
+  Serial.print("\t");
+  Serial.print(angle);
+  Serial.print("\t");
+  Serial.print(derivativeTerm);
+  Serial.print("\t");
+  Serial.print(proportional);
+  
+  output = proportional + integralTerm - derivativeTerm;
+  output = constrain(output, -254 , 254);
+
+  Serial.print("\t");
+  Serial.println(output);
+  
+  prevError = error;
 
   if (derivativeTerm != 0) {
-    Serial.println(derivativeTerm);
+    //Serial.println(derivativeTerm);
   }
 
   // Calculate the output
-  output = proportional + integralTerm - derivativeTerm;
+  //output = proportional + integralTerm - derivativeTerm;
 
-  //////Serial.println(angle);
 
-  int interval = 2000000000;
-  if (millis() - lastPrint >= interval) {
-    // Serial.print("kp: ");
-    // Serial.print(proportional);
-    // Serial.print("\tkd: ");
-    // Serial.print(derivative);
-    // Serial.print("\t");
+  int interval = 0;
+  if (millis() - lastPrint >= interval and debug) {
+    
+    Serial.print("elapsed: ");
+    Serial.print(elapsedTime);
+    Serial.print("\tchange: ");
+    Serial.print(angle - prevError);
+
+    Serial.print("kp: ");
+    Serial.print(proportional);
+    Serial.print("\tkd: ");
+    Serial.print(derivative);
+    Serial.print("\t");
   }
   // Constrain the output to the valid range (e.g., 0-255 for PWM)
-  output = constrain(output, -254 , 254);
 
   // // Serial.print("output: ");
   // // Serial.println(output);
@@ -178,18 +199,18 @@ void loop() {
   // Debugging output
   // // Serial.print("Input: ");
   // // Serial.print(input);p
-  if (millis() - lastPrint >= interval) {
-    // Serial.print(mpu.getGyroZ() - gyroZOffset);
-    // Serial.print("\tOutput: ");
-    // Serial.print(output);
-    // Serial.print("\tError: ");
-    // Serial.print(error);
-    // Serial.print("\tAngle: ");
-    // Serial.print(angle);
-    // Serial.println();
+  if (millis() - lastPrint >= interval and debug) {
+    Serial.print(mpu.getGyroZ() - gyroZOffset);
+    Serial.print("\tOutput: ");
+    Serial.print(output);
+    Serial.print("\tError: ");
+    Serial.print(error);
+    Serial.print("\tAngle: ");
+    Serial.print(angle);
+    Serial.println();
 
 
-    // lastPrint = millis();
+    lastPrint = millis();
   }
 
   // // Serial.print("\tKp: ");
@@ -241,7 +262,7 @@ void parseCommand(String command) {
 
 // Function to calibrate gyroscope
 void calibrateGyro() {
-  const int numSamples = 1000 - 1000;
+  const int numSamples = 1000;
   float sumX = 0, sumY = 0, sumZ = 0;
 
   for (int i = 0; i < numSamples; i++) {
@@ -254,7 +275,7 @@ void calibrateGyro() {
 
   // gyroXOffset = sumX / numSamples;
   // gyroYOffset = sumY / numSamples;
-  gyroZOffset = -1.13; //sumZ / numSamples;
+  gyroZOffset = sumZ / numSamples;
   Serial.print("GyroOffset: ");
   Serial.println(gyroZOffset);
   // // Serial.print(gyroXOffset);
