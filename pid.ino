@@ -148,9 +148,9 @@ void loop() {
 
   // Debugging output
   // // Serial.print("Input: ");
-  // // Serial.print(input);
+  // // Serial.print(input);p
   if (millis() - lastPrint >= 1000) {
-
+    Serial.print(mpu.getGyroZ());
     Serial.print("\tOutput: ");
     Serial.print(output);
     Serial.print("\tError: ");
@@ -160,6 +160,8 @@ void loop() {
     Serial.print("\tFactor: ");
     Serial.print(100 * error / angle);
     Serial.println();
+
+
     lastPrint = millis();
   }
 
