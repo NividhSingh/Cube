@@ -3,14 +3,14 @@
 // IMU
 MPU9250 mpu;
 float gyroXOffset = 0, gyroYOffset = 0, gyroZOffset = 0;
-float angle = -7.12; //-45;
+float angle = -45; //-7.12; //-45;
 
 bool debug = false;
 
 // Define PID parameters
 double Kp = 40;  // Proportional gain
 double Ki = 0;//.000001;//0.00005;  // Integral gain
-double Kd = 10; //250;//.01;//0010;  // Derivative gain
+double Kd = 100; //250;//.01;//0010;  // Derivative gain
 int direction = 0;
 
 float alpha = .99;
