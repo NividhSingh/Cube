@@ -8,9 +8,9 @@ float angle = -45; //-7.12; //-45;
 bool debug = false;
 
 // Define PID parameters
-double Kp = 40;  // Proportional gain
+double Kp = 30;  // Proportional gain
 double Ki = 0;//.000001;//0.00005;  // Integral gain
-double Kd = 100; //250;//.01;//0010;  // Derivative gain
+double Kd = 5; //100; //250;//.01;//0010;  // Derivative gain
 int direction = 0;
 
 float alpha = .99;
@@ -38,6 +38,7 @@ void setup() {
   // Initialize serial communication for debugging and input
   Serial.begin(9600);
 
+  Serial.println("Starting");
   // IMU
   Wire.begin();
 
@@ -133,13 +134,17 @@ void loop() {
   
   Serial.print(millis());
   Serial.print("\t");
-  Serial.print(angle);
+  Serial.print(error);
   Serial.print("\t");
   Serial.print(derivativeTerm);
   Serial.print("\t");
   Serial.print(proportional);
+  Serial.print("\t");
+  Serial.print(error - prevError);
+  Serial.print("\t");
+  Serial.print(elapsedTime);
   
-  output = proportional + integralTerm - derivativeTerm;
+  output = proportional + integralTerm + derivativeTerm;
   output = constrain(output, -254 , 254);
 
   Serial.print("\t");
@@ -184,7 +189,7 @@ void loop() {
     // Spin the motor in the opposite direction at max speed
     digitalWrite(directionPin, HIGH);  // Set direction to reverse
     // // Serial.println("Motor spinning in reverse at max speed");
-    analogWrite(pwmPin, 255 - abs(output));         // Max speed (100% duty cycle)
+    analogWrite(pwmPin, 255 - int(abs(output)));         // Max speed (100% duty cycle)
   }
   else {
     // if (direction != 1) {
@@ -193,7 +198,7 @@ void loop() {
     // }
     digitalWrite(directionPin, LOW); // Set direction to forward
     // // Serial.println("Motor spinning forward at max speed");
-    analogWrite(pwmPin, 255 - abs(output));         // Max speed (100% duty cycle)
+    analogWrite(pwmPin, 255 - int(abs(output) ));         // Max speed (100% duty cycle)
   }
 
   // Debugging output
