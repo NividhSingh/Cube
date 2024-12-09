@@ -3,21 +3,24 @@
 // IMU
 MPU9250 mpu;
 float gyroXOffset = 0, gyroYOffset = 0, gyroZOffset = 0;
-float angle = 0;
+float angle = -7.12; //-45;
 
 // Define PID parameters
-double Kp = 0.0;  // Proportional gain
+double Kp = 150;  // Proportional gain
 double Ki = 0;//.000001;//0.00005;  // Integral gain
-double Kd = 0; //250;//.01;//0010;  // Derivative gain
+double Kd = 65; //250;//.01;//0010;  // Derivative gain
+int direction = 0;
+
+float alpha = .95;
 
 // Variables for PID calculations
 double setpoint = 100.0;  // Desired value
 double input = 0.0;       // Current value (e.g., from a sensor)
 double output = 0.0;      // Output signal to the actuator
-double prevInput = 0.0;   // Previous input value
+double prevAngle = 0.0;   // Previous input value
 double integral = 0.0;    // Integral accumulator
 
-double lastPrint = 0;
+double lastPrint = millis();
 
 // Timing variables
 unsigned long lastTime = 0;
@@ -63,6 +66,8 @@ void setup() {
 
   // Enable the motor
   digitalWrite(startstopPin, HIGH);
+  
+  lastPrint = millis();
   // // Serial.println("Motor enabled");
 }
 
@@ -87,7 +92,7 @@ void loop() {
     // // // Serial.print("Z: ");
     // // // Serial.println(mpu.getAccZ()); // Use println to move to the next line
 
-    delay(10);
+    //delay(10);
   }
 
 
@@ -104,7 +109,7 @@ void loop() {
   elapsedTime = (currentTime - lastTime) / 1000.0;  // Convert to seconds
 
   // Read the sensor value (example: normalized between 0 and 255)
-  double error =  mpu.getAccX();
+  double error =  ((1-alpha) * mpu.getAccX() * 70 + (alpha) * angle) / 2;
   // input = map(input, 0, 1023, 0, 255);  // Scale to match output range
 
   // Calculate the error
@@ -118,29 +123,53 @@ void loop() {
   double integralTerm = Ki * integral;
 
   // update angle
-  angle += mpu.getGyroZ() * elapsedTime;
+  angle -= (mpu.getGyroZ() - gyroZOffset) * elapsedTime;
 
   // Derivative term
-  double derivative = (input - prevInput) / elapsedTime;
+  double derivative = (angle - prevAngle) / elapsedTime;
   double derivativeTerm = Kd * derivative;
+  prevAngle = angle;
+
+  if (derivativeTerm != 0) {
+    Serial.println(derivativeTerm);
+  }
 
   // Calculate the output
   output = proportional + integralTerm - derivativeTerm;
 
+  //////Serial.println(angle);
+
+  int interval = 2000000000;
+  if (millis() - lastPrint >= interval) {
+    // Serial.print("kp: ");
+    // Serial.print(proportional);
+    // Serial.print("\tkd: ");
+    // Serial.print(derivative);
+    // Serial.print("\t");
+  }
   // Constrain the output to the valid range (e.g., 0-255 for PWM)
-  output = constrain(output, -255 , 255);
+  output = constrain(output, -254 , 254);
 
   // // Serial.print("output: ");
   // // Serial.println(output);
   // // Serial.println(abs(output));
 
   if (output < 0) {
+    //Serial.println(direction);
+    // if (direction != -1) {
+    //   analogWrite(pwmPin, 0);           // Stop motor
+    //   direction = -1;
+    // }
     // Spin the motor in the opposite direction at max speed
     digitalWrite(directionPin, HIGH);  // Set direction to reverse
     // // Serial.println("Motor spinning in reverse at max speed");
     analogWrite(pwmPin, 255 - abs(output));         // Max speed (100% duty cycle)
   }
   else {
+    // if (direction != 1) {
+    //   analogWrite(pwmPin, 0);           // Stop motor
+    //   direction = 1;
+    // }
     digitalWrite(directionPin, LOW); // Set direction to forward
     // // Serial.println("Motor spinning forward at max speed");
     analogWrite(pwmPin, 255 - abs(output));         // Max speed (100% duty cycle)
@@ -149,20 +178,18 @@ void loop() {
   // Debugging output
   // // Serial.print("Input: ");
   // // Serial.print(input);p
-  if (millis() - lastPrint >= 1000) {
-    Serial.print(mpu.getGyroZ());
-    Serial.print("\tOutput: ");
-    Serial.print(output);
-    Serial.print("\tError: ");
-    Serial.print(error);
-    Serial.print("\tAngle: ");
-    Serial.print(angle);
-    Serial.print("\tFactor: ");
-    Serial.print(100 * error / angle);
-    Serial.println();
+  if (millis() - lastPrint >= interval) {
+    // Serial.print(mpu.getGyroZ() - gyroZOffset);
+    // Serial.print("\tOutput: ");
+    // Serial.print(output);
+    // Serial.print("\tError: ");
+    // Serial.print(error);
+    // Serial.print("\tAngle: ");
+    // Serial.print(angle);
+    // Serial.println();
 
 
-    lastPrint = millis();
+    // lastPrint = millis();
   }
 
   // // Serial.print("\tKp: ");
@@ -173,7 +200,6 @@ void loop() {
   // // Serial.println(Kd);
 
   // Update previous values
-  prevInput = input;
   lastTime = currentTime;
 
   // Small delay for stability (adjust as needed)
@@ -209,13 +235,13 @@ void parseCommand(String command) {
     // // Serial.print("Kd updated to: ");
     // // Serial.println(Kd);
   } else {
-    // // Serial.println("Unknown command. Use Kp, Ki, or Kd followed by a value.");
+    Serial.println("Unknown command. Use Kp, Ki, or Kd followed by a value.");
   }
 }
 
 // Function to calibrate gyroscope
 void calibrateGyro() {
-  const int numSamples = 100;
+  const int numSamples = 1000 - 1000;
   float sumX = 0, sumY = 0, sumZ = 0;
 
   for (int i = 0; i < numSamples; i++) {
@@ -228,7 +254,9 @@ void calibrateGyro() {
 
   // gyroXOffset = sumX / numSamples;
   // gyroYOffset = sumY / numSamples;
-  // gyroZOffset = sumZ / numSamples;
+  gyroZOffset = -1.13; //sumZ / numSamples;
+  Serial.print("GyroOffset: ");
+  Serial.println(gyroZOffset);
   // // Serial.print(gyroXOffset);
   // // Serial.print(" ");
   // // Serial.print(gyroYOffset);
@@ -236,4 +264,5 @@ void calibrateGyro() {
   // // Serial.print(gyroZOffset);
   // // Serial.print(" ");
   // // Serial.println("Gyroscope calibrated!");
+  
 }
