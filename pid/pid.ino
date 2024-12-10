@@ -3,7 +3,7 @@
 // IMU
 MPU9250 mpu;
 float gyroXOffset = 0, gyroYOffset = 0, gyroZOffset = 0;
-float angle = -48; //-7.12; //-45;
+float angle = -47; //-7.12; //-45;
 
 bool debug = false;
 
@@ -11,7 +11,7 @@ bool debug = false;
 
 // Define PID parameters
 double Kp = 40;  // Proportional gain
-double Ki = 0;//.000001;//0.00005;  // Integral gain
+double Ki = 0.0001;//.000001;//0.00005;  // Integral gain
 double Kd = 7; //100; //250;//.01;//0010;  // Derivative gain
 int direction = 0;
 
@@ -138,9 +138,9 @@ void loop() {
   Serial.print(millis());
   Serial.print("\t");
   Serial.print(error);
-  Serial.print("\t");
+  //Serial.print("\t");
   //Serial.print(angle);
-  Serial.print("\t");
+  //Serial.print("\t");
   //Serial.print(mpu.getAccX() * 70);
   Serial.print("\t");
   Serial.print(derivativeTerm);
