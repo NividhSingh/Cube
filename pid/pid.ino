@@ -3,16 +3,16 @@
 // IMU
 MPU9250 mpu;
 float gyroXOffset = 0, gyroYOffset = 0, gyroZOffset = 0;
-float angle = -47; //-7.12; //-45;
+float angle = -45; //-7.12; //-45;
 
 bool debug = false;
 
 // 30
 
 // Define PID parameters
-double Kp = 40;  // Proportional gain
-double Ki = 0.0001;//.000001;//0.00005;  // Integral gain
-double Kd = 7; //100; //250;//.01;//0010;  // Derivative gain
+double Kp = 70;  // Proportional gain
+double Ki = 0; //0.0001;//.000001;//0.00005;  // Integral gain
+double Kd = 3; //100; //250;//.01;//0010;  // Derivative gain
 int direction = 0;
 
 float alpha = .99;
@@ -146,13 +146,16 @@ void loop() {
   Serial.print(derivativeTerm);
   Serial.print("\t");
   Serial.print(proportional);
+  // Serial.print("\t");
+  // Serial.print(integral);
   //Serial.print("\t");
   //Serial.print(error - prevError);
   //Serial.print("\t");
   //Serial.print(elapsedTime);
   
   output = proportional + integralTerm + derivativeTerm;
-  output = constrain(output, -254 , 254);
+  //output = constrain(output, -254 , 254);
+  output = constrain(output, -154 , 154);
 
   Serial.print("\t");
   Serial.println(output);
@@ -274,7 +277,7 @@ void parseCommand(String command) {
 
 // Function to calibrate gyroscope
 void calibrateGyro() {
-  const int numSamples = 1000;
+  const int numSamples = 2000;
   float sumX = 0, sumY = 0, sumZ = 0;
 
   for (int i = 0; i < numSamples; i++) {
