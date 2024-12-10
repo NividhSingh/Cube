@@ -3,14 +3,16 @@
 // IMU
 MPU9250 mpu;
 float gyroXOffset = 0, gyroYOffset = 0, gyroZOffset = 0;
-float angle = -45; //-7.12; //-45;
+float angle = -48; //-7.12; //-45;
 
 bool debug = false;
 
+// 30
+
 // Define PID parameters
-double Kp = 30;  // Proportional gain
+double Kp = 40;  // Proportional gain
 double Ki = 0;//.000001;//0.00005;  // Integral gain
-double Kd = 5; //100; //250;//.01;//0010;  // Derivative gain
+double Kd = 7; //100; //250;//.01;//0010;  // Derivative gain
 int direction = 0;
 
 float alpha = .99;
@@ -111,7 +113,8 @@ void loop() {
   elapsedTime = (currentTime - lastTime) / 1000.0;  // Convert to seconds
 
   // Read the sensor value (example: normalized between 0 and 255)
-  double error =  ((1-alpha) * mpu.getAccX() * 70 + (alpha) * angle) / 2;
+  angle -= (mpu.getGyroZ() - gyroZOffset) * elapsedTime;
+  double error =  ((1-alpha) * mpu.getAccX() * 70 + (alpha) * angle);
   // input = map(input, 0, 1023, 0, 255);  // Scale to match output range
 
   // Calculate the error
@@ -125,24 +128,28 @@ void loop() {
   double integralTerm = Ki * integral;
 
   // update angle
-  angle -= (mpu.getGyroZ() - gyroZOffset) * elapsedTime;
 
   // Derivative term
   double derivative = (error - prevError) / elapsedTime;
   double derivativeTerm = Kd * derivative;
 
+  lastTime = currentTime;
   
   Serial.print(millis());
   Serial.print("\t");
   Serial.print(error);
   Serial.print("\t");
+  //Serial.print(angle);
+  Serial.print("\t");
+  //Serial.print(mpu.getAccX() * 70);
+  Serial.print("\t");
   Serial.print(derivativeTerm);
   Serial.print("\t");
   Serial.print(proportional);
-  Serial.print("\t");
-  Serial.print(error - prevError);
-  Serial.print("\t");
-  Serial.print(elapsedTime);
+  //Serial.print("\t");
+  //Serial.print(error - prevError);
+  //Serial.print("\t");
+  //Serial.print(elapsedTime);
   
   output = proportional + integralTerm + derivativeTerm;
   output = constrain(output, -254 , 254);
@@ -271,6 +278,9 @@ void calibrateGyro() {
   float sumX = 0, sumY = 0, sumZ = 0;
 
   for (int i = 0; i < numSamples; i++) {
+    if (i % 100 == 0) {
+      Serial.println(sumZ / i);
+    }
     mpu.update();
     sumX += mpu.getGyroX();
     sumY += mpu.getGyroY();
