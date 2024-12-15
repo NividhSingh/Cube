@@ -1,10 +1,12 @@
 #include <MPU9250.h>
+#include <MadgwickAHRS.h>
 
 // IMU
 MPU9250 mpu;
+Madgwick filter;
 float gyroXOffset = 0, gyroYOffset = 0, gyroZOffset = 0;
-float angle = -45; //-7.12; //-45;
-
+float angle = 45; //-7.12; //-45;
+float pitch = 0.0;
 bool debug = false;
 
 // 30
@@ -44,13 +46,14 @@ void setup() {
   // IMU
   Wire.begin();
 
-  if (!mpu.setup(0x68)) {
+  if (!mpu.setup(0x69)) {
     // // Serial.println("MPU9250 connection failed!");
     while (1);
   }
-
+  
   // // Serial.println("Calibrating gyroscope...");
   calibrateGyro();
+  filter.begin(16);
 
 
 
@@ -81,6 +84,18 @@ void loop() {
     float gyroX = mpu.getGyroX() - gyroXOffset;
     float gyroY = mpu.getGyroY() - gyroYOffset;
     float gyroZ = mpu.getGyroZ() - gyroZOffset;
+
+    float accX = mpu.getAccX();
+    float accY = mpu.getAccY();
+    float accZ = mpu.getAccZ();
+
+    // Pass all gyroscope data
+    filter.updateIMU(gyroX, gyroY, gyroZ, accX, accY, accZ);
+
+    // Get orientation
+    pitch = filter.getPitch();
+    // float roll = filter.getRoll();
+    // float yaw = filter.getYaw();
 
      // // Serial.print("Calibrated Gyro X: "); // // Serial.print(gyroX);
      // // Serial.print("\tY: "); // // Serial.print(gyroY);
@@ -113,8 +128,9 @@ void loop() {
   elapsedTime = (currentTime - lastTime) / 1000.0;  // Convert to seconds
 
   // Read the sensor value (example: normalized between 0 and 255)
-  angle -= (mpu.getGyroZ() - gyroZOffset) * elapsedTime;
-  double error =  ((1-alpha) * mpu.getAccX() * 70 + (alpha) * angle);
+  angle -= (pitch) * elapsedTime;
+  double error = pitch; //((1-alpha) * mpu.getAccX() * 70 + (alpha) * angle);
+  // double error = pitch;
   // input = map(input, 0, 1023, 0, 255);  // Scale to match output range
 
   // Calculate the error
@@ -137,7 +153,7 @@ void loop() {
   
   Serial.print(millis());
   Serial.print("\t");
-  Serial.print(error);
+  Serial.print(pitch);
   //Serial.print("\t");
   //Serial.print(angle);
   //Serial.print("\t");
@@ -215,7 +231,7 @@ void loop() {
   // // Serial.print("Input: ");
   // // Serial.print(input);p
   if (millis() - lastPrint >= interval and debug) {
-    Serial.print(mpu.getGyroZ() - gyroZOffset);
+    Serial.print(mpu.getGyroY() - gyroYOffset);
     Serial.print("\tOutput: ");
     Serial.print(output);
     Serial.print("\tError: ");
@@ -293,9 +309,9 @@ void calibrateGyro() {
 
   // gyroXOffset = sumX / numSamples;
   // gyroYOffset = sumY / numSamples;
-  gyroZOffset = sumZ / numSamples;
+  gyroYOffset = sumY / numSamples;
   Serial.print("GyroOffset: ");
-  Serial.println(gyroZOffset);
+  Serial.println(gyroYOffset);
   // // Serial.print(gyroXOffset);
   // // Serial.print(" ");
   // // Serial.print(gyroYOffset);
