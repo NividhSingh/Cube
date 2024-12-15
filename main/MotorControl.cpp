@@ -1,5 +1,7 @@
 #include "MotorControl.h"
 #include <Arduino.h>
+#include <math.h>
+#include <Arduino.h> // For delay and Arduino-specific functions
 
 void MotorControl::init() {
   pinMode(pwmPin, OUTPUT);

@@ -1,4 +1,6 @@
 #include "PIDController.h"
+#include <math.h>
+#include <Arduino.h> // For delay and Arduino-specific functions
 
 void PIDController::init(double Kp, double Ki, double Kd, double setpoint) {
   this->Kp = Kp;

@@ -1,4 +1,6 @@
 #include "MPUManager.h"
+#include <math.h>
+#include <Arduino.h> // For delay and Arduino-specific functions
 
 void MPUManager::init() {
   Wire.begin();

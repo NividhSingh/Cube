@@ -1,5 +1,7 @@
 #include "Utils.h"
 #include <Arduino.h>
+#include <math.h>
+#include <Arduino.h> // For delay and Arduino-specific functions
 
 extern double Kp, Ki, Kd;
 
