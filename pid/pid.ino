@@ -12,9 +12,9 @@ bool debug = false;
 // 30
 
 // Define PID parameters
-double Kp = 70;  // Proportional gain
-double Ki = 0; //0.0001;//.000001;//0.00005;  // Integral gain
-double Kd = 3; //100; //250;//.01;//0010;  // Derivative gain
+double Kp = 45;  // Proportional gain
+double Ki = 0.0; //0.0001;//.000001;//0.00005;  // Integral gain
+double Kd = 10; //100; //250;//.01;//0010;  // Derivative gain
 int direction = 0;
 
 float alpha = .99;
@@ -46,7 +46,7 @@ void setup() {
   // IMU
   Wire.begin();
 
-  if (!mpu.setup(0x69)) {
+  if (!mpu.setup(0x68)) {
     // // Serial.println("MPU9250 connection failed!");
     while (1);
   }
@@ -170,8 +170,8 @@ void loop() {
   //Serial.print(elapsedTime);
   
   output = proportional + integralTerm + derivativeTerm;
-  //output = constrain(output, -254 , 254);
-  output = constrain(output, -154 , 154);
+  output = constrain(output, -254 , 254);
+  // output = constrain(output, -154 , 154);
 
   Serial.print("\t");
   Serial.println(output);
