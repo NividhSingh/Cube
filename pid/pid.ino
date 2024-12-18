@@ -1,178 +1,218 @@
 #include <MPU9250.h>
 #include <MadgwickAHRS.h>
 
-// IMU
+// IMU sensor objects
 MPU9250 mpu;
 Madgwick filter;
+
+// Gyroscope calibration offsets
 float gyroXOffset = 0, gyroYOffset = 0, gyroZOffset = 0;
-float angle = 45; //-7.12; //-45;
-float pitch = 0.0;
+
+// Initial pitch angle and debug flag
+float angle = 45;  // Initial guess for the pitch angle
+float pitch = 0.0; // Real-time pitch value
 bool debug = false;
 
-// Define PID parameters
-double Kp = 140;  // Proportional gain
-double Ki = 0.0008; // Integral gain
-double Kd = 10.1; // Derivative gain
-int direction = 0;
+// PID controller parameters
+const double Kp = 140;    // Proportional gain
+const double Ki = 0.0008; // Integral gain
+const double Kd = 10.1;   // Derivative gain
 
-float alpha = .99;
+// Alpha for complementary filter (unused in this implementation)
+const float alpha = 0.99;
 
-// Variables for PID calculations
-double setpoint = 100.0;  // Desired value
-double output = 0.0;      // Output signal to the actuator
-double prevError = 0.0;   // Previous input value
-double integral = 0.0;    // Integral accumulator
-
-double lastPrint = millis();
+// PID control variables
+double setpoint = 100.0; // Target pitch value
+double output = 0.0;     // PID output
+double prevError = 0.0;  // Previous error for derivative calculation
+double integral = 0.0;   // Accumulated integral term
 
 // Timing variables
 unsigned long lastTime = 0;
 unsigned long currentTime;
-double elapsedTime;
 
-// Motor
-const int pwmPin = 9;           // PWM pin for motor speed control
-const int directionPin = 6;     // Direction pin for motor control
-const int startstopPin = 12;    // Pin for motor enable/disable
+// Motor control pins
+const int pwmPin = 9;        // PWM output pin
+const int directionPin = 6;  // Direction control pin
+const int startstopPin = 12; // Motor enable/disable pin
 
+// Function prototypes
+void calibrateGyro();
+void processSerialInput();
+void parseCommand(String command);
 
-void setup() {
-  
+// Setup function executed once at the start
+void setup()
+{
+  // Initialize I2C communication
   Wire.begin();
 
-  if (!mpu.setup(0x68)) {
-    while (1);
+  // Initialize the MPU9250 sensor
+  if (!mpu.setup(0x68))
+  {
+    while (1)
+      ; // Halt execution if the IMU cannot be initialized
   }
-  
-  calibrateGyro();
-  filter.begin(100);
 
-  // Motor
+  // Calibrate the gyroscope
+  calibrateGyro();
+
+  // Initialize the Madgwick filter
+  filter.begin(100); // Sampling rate: 100 Hz
+
+  // Configure motor control pins
   pinMode(pwmPin, OUTPUT);
   pinMode(directionPin, OUTPUT);
   pinMode(startstopPin, OUTPUT);
 
   // Enable the motor
   digitalWrite(startstopPin, HIGH);
-  
-  lastPrint = millis();
+
+  // Initialize serial communication for debugging
+  Serial.begin(115200);
 }
 
-void loop() {
-  // Get the current time
+// Main loop executed continuously
+void loop()
+{
+  // Update the current time
   currentTime = millis();
-  mpu.update();
-  // Check if 5 milliseconds have passed (1 / 200 Hz = 5 ms)
-  if (currentTime - lastTime >= 10) {
-    lastTime = currentTime;  // Update the last execution time
 
-    if (mpu.update()) {
-      // Apply calibration offset to gyroscope readings
+  // Perform IMU updates and PID calculations every 10ms (100 Hz)
+  if (currentTime - lastTime >= 10)
+  {
+    lastTime = currentTime; // Update last execution time
+
+    // Update MPU9250 readings
+    if (mpu.update())
+    {
+      // Apply gyroscope calibration offsets
       float gyroX = mpu.getGyroX() - gyroXOffset;
       float gyroY = mpu.getGyroY() - gyroYOffset;
       float gyroZ = mpu.getGyroZ() - gyroZOffset;
 
+      // Read accelerometer data
       float accX = mpu.getAccX();
       float accY = mpu.getAccY();
       float accZ = mpu.getAccZ();
 
-      // Pass all gyroscope data
+      // Update Madgwick filter with IMU data
       filter.updateIMU(gyroX, gyroY, gyroZ, accX, accY, accZ);
 
-      // Get orientation
+      // Retrieve the calculated pitch angle
       pitch = filter.getPitch();
     }
 
     // PID control logic
-    double error = pitch;
-    double proportional = Kp * error;
+    double error = pitch;             // Calculate error
+    double proportional = Kp * error; // Proportional term
 
-    integral += error * 0.005;  // Integrate over the interval (5 ms = 0.005 s)
+    integral += error * 0.005; // Update integral term (5ms interval)
     double integralTerm = Ki * integral;
 
-    double derivative = (error - prevError) / 0.005;  // Derivative over 5 ms
+    double derivative = (error - prevError) / 0.005; // Derivative term
     double derivativeTerm = Kd * derivative;
 
+    // Compute total PID output
     output = proportional + integralTerm + derivativeTerm;
+
+    // Constrain output to motor's input range
     output = constrain(output, -250, 250);
 
+    // Store current error for next derivative calculation
     prevError = error;
 
-    // Control motor direction and speed
-    if (output > 0) {
-      digitalWrite(directionPin, HIGH);  // Reverse direction
-      analogWrite(pwmPin, 255 - int(abs(output)));
-    } else {
-      digitalWrite(directionPin, LOW);  // Forward direction
+    // Control motor speed and direction based on PID output
+    if (output > 0)
+    {
+      digitalWrite(directionPin, HIGH); // Set direction to reverse
       analogWrite(pwmPin, 255 - int(abs(output)));
     }
-
+    else
+    {
+      digitalWrite(directionPin, LOW); // Set direction to forward
+      analogWrite(pwmPin, 255 - int(abs(output)));
+    }
   }
 
-  // Process serial input for tuning PID parameters
-  if (Serial.available()) {
+  // Process serial input for real-time PID tuning
+  if (Serial.available())
+  {
     processSerialInput();
   }
 }
 
-// Function to process serial input for tuning
-void processSerialInput() {
+// Function to handle serial input for PID parameter tuning
+void processSerialInput()
+{
   static String inputString = "";
-  while (Serial.available()) {
+  while (Serial.available())
+  {
     char inChar = (char)Serial.read();
-    if (inChar == '\n') {
+    if (inChar == '\n')
+    {
       parseCommand(inputString);
-      inputString = "";  // Clear the string after processing
-    } else {
-      inputString += inChar;  // Append character to the input string
+      inputString = ""; // Clear the input buffer
+    }
+    else
+    {
+      inputString += inChar; // Append character to the input string
     }
   }
 }
 
-// Function to parse and execute commands
-void parseCommand(String command) {
-  if (command.startsWith("Kp ")) {
+// Parse and execute tuning commands
+void parseCommand(String command)
+{
+  if (command.startsWith("Kp "))
+  {
     Kp = command.substring(3).toFloat();
-    // Serial.print("Kp updated to: ");
-    // Serial.println(Kp);
-  } else if (command.startsWith("Ki ")) {
+    Serial.print("Kp updated to: ");
+    Serial.println(Kp);
+  }
+  else if (command.startsWith("Ki "))
+  {
     Ki = command.substring(3).toFloat();
-    // Serial.print("Ki updated to: ");
-    // Serial.println(Ki);
-  } else if (command.startsWith("Kd ")) {
+    Serial.print("Ki updated to: ");
+    Serial.println(Ki);
+  }
+  else if (command.startsWith("Kd "))
+  {
     Kd = command.substring(3).toFloat();
-    // Serial.print("Kd updated to: ");
-    // Serial.println(Kd);
-  } else {
-    // Serial.println("Unknown command. Use Kp, Ki, or Kd followed by a value.");
+    Serial.print("Kd updated to: ");
+    Serial.println(Kd);
+  }
+  else
+  {
+    Serial.println("Unknown command. Use Kp, Ki, or Kd followed by a value.");
   }
 }
 
-// Function to calibrate gyroscope
-void calibrateGyro() {
-  const int numSamples = 2000;
+// Calibrate the gyroscope by averaging readings over a set number of samples
+void calibrateGyro()
+{
+  const int numSamples = 2000; // Number of samples to average
   float sumX = 0, sumY = 0, sumZ = 0;
 
-  for (int i = 0; i < numSamples; i++) {
-
+  for (int i = 0; i < numSamples; i++)
+  {
     mpu.update();
     sumX += mpu.getGyroX();
     sumY += mpu.getGyroY();
     sumZ += mpu.getGyroZ();
-    // delay(10); // Small delay between samples
+    delay(1); // Small delay to stabilize readings
   }
 
-  // gyroXOffset = sumX / numSamples;
-  // gyroYOffset = sumY / numSamples;
+  // Calculate average offsets
+  gyroXOffset = sumX / numSamples;
   gyroYOffset = sumY / numSamples;
-  // Serial.print("GyroOffset: ");
-  // Serial.println(gyroYOffset);
-  // Serial.print(gyroXOffset);
-  // Serial.print(" ");
-  // Serial.print(gyroYOffset);
-  // Serial.print(" ");
-  // Serial.print(gyroZOffset);
-  // Serial.print(" ");
-  // Serial.println("Gyroscope calibrated!");
-  
+  gyroZOffset = sumZ / numSamples;
+
+  Serial.println("Gyroscope calibrated!");
+  Serial.print("Offsets - X: ");
+  Serial.print(gyroXOffset);
+  Serial.print(", Y: ");
+  Serial.print(gyroYOffset);
+  Serial.print(", Z: ");
+  Serial.println(gyroZOffset);
 }
