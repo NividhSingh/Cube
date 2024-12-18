@@ -82,9 +82,71 @@
       .card:hover .card-description {
         opacity: 1;
       }
+      .hamburger-menu {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 50;
+        cursor: pointer;
+      }
+      .menu-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 40;
+      }
+      .menu-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .menu-overlay a {
+        text-decoration: none;
+        color: white;
+        font-size: 1.5rem;
+        margin: 1rem 0;
+        transition: color 0.3s ease;
+      }
+      .menu-overlay a:hover {
+        color: gray;
+      }
     </style>
   </head>
   <body class="font-sans">
+    <!-- Hamburger Menu -->
+    <div id="hamburger" class="hamburger-menu">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-8 w-8 text-white"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M4 6h16M4 12h16m-7 6h7"
+        />
+      </svg>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div id="menu" class="menu-overlay">
+      <a href="#project-demonstration">Project Demonstration</a>
+      <a href="#cards">Cards</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#team">The Team</a>
+      <a href="https://google.com">External Link</a>
+    </div>
+
     <!-- Hero Header -->
     <div
       class="relative h-screen bg-cover bg-center"
@@ -255,74 +317,99 @@
         <div id="team-members" class="flex flex-wrap justify-center gap-8">
           <!-- Team Member 1 -->
           <div class="team-member flex flex-col items-center">
-            <div
-              class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
-            >
-              <img
-                src="https://via.placeholder.com/150"
-                alt="Team Member 1"
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <p class="mt-4 text-lg font-medium">Nividh Singh</p>
+            <a href="https://www.linkedin.com/in/nividh-singh/" class="flex flex-col items-center">
+              <div
+                class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+              >
+                <img
+                  src="https://via.placeholder.com/150"
+                  alt="Team Member 1"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <p class="mt-4 text-lg font-medium">Nividh Singh</p>
+            </a>
           </div>
           <!-- Team Member 2 -->
           <div class="team-member flex flex-col items-center">
-            <div
-              class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
-            >
-              <img
-                src="https://via.placeholder.com/150"
-                alt="Team Member 2"
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <p class="mt-4 text-lg font-medium">Anthony Cheung</p>
+            <a href="https://www.linkedin.com/in/acheung09/" class="flex flex-col items-center">
+              <div
+                class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+              >
+                <img
+                  src="https://via.placeholder.com/150"
+                  alt="Team Member 2"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <p class="mt-4 text-lg font-medium">Anthony Cheung</p>
+            </a>
           </div>
           <!-- Team Member 3 -->
           <div class="team-member flex flex-col items-center">
-            <div
-              class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
-            >
-              <img
-                src="https://via.placeholder.com/150"
-                alt="Team Member 3"
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <p class="mt-4 text-lg font-medium">Cian Linehan</p>
+            <a href="https://www.linkedin.com/in/cianlinehan/" class="flex flex-col items-center">
+              <div
+                class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+              >
+                <img
+                  src="https://via.placeholder.com/150"
+                  alt="Team Member 3"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <p class="mt-4 text-lg font-medium">Cian Linehan</p>
+            </a>
           </div>
           <!-- Team Member 4 -->
           <div class="team-member flex flex-col items-center">
-            <div
-              class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
-            >
-              <img
-                src="https://via.placeholder.com/150"
-                alt="Team Member 4"
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <p class="mt-4 text-lg font-medium">Ahan Trivedi</p>
+            <a href="#https://www.linkedin.com/in/ahan-trivedi/" class="flex flex-col items-center">
+              <div
+                class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+              >
+                <img
+                  src="https://via.placeholder.com/150"
+                  alt="Team Member 4"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <p class="mt-4 text-lg font-medium">Ahan Trivedi</p>
+            </a>
           </div>
           <!-- Team Member 5 -->
           <div class="team-member flex flex-col items-center">
-            <div
-              class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
-            >
-              <img
-                src="https://via.placeholder.com/150"
-                alt="Team Member 5"
-                class="w-full h-full object-cover"
-              />
-            </div>
-            <p class="mt-4 text-lg font-medium">Ishan Porwal</p>
+            <a href="#https://www.linkedin.com/in/ishan-porwal/" class="flex flex-col items-center">
+              <div
+                class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+              >
+                <img
+                  src="https://via.placeholder.com/150"
+                  alt="Team Member 5"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <p class="mt-4 text-lg font-medium">Ishan Porwal</p>
+            </a>
           </div>
         </div>
       </div>
     </div>
 
     <script>
+      const hamburger = document.getElementById("hamburger");
+      const menu = document.getElementById("menu");
+
+      // Toggle the menu when the hamburger icon is clicked
+      hamburger.addEventListener("click", () => {
+        menu.classList.toggle("active");
+      });
+
+      // Close the menu when a link is clicked
+      menu.addEventListener("click", (event) => {
+        if (event.target.tagName === "A") {
+          menu.classList.remove("active");
+        }
+      });
+
       const carouselItems = document.querySelectorAll(".carousel-item");
       let currentIndex = 0;
 
@@ -360,7 +447,6 @@
       }
 
       document.addEventListener("DOMContentLoaded", shuffleTeamMembers);
-
     </script>
   </body>
 </html>
