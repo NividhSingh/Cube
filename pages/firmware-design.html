@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive 3D Cube</title>
+  <style>
+    /* Scene styles for perspective */
+    .scene {
+      width: 200px;
+      height: 200px;
+      perspective: 600px;
+      margin: 100px auto;
+      position: relative;
+    }
+
+    /* Cube container with 3D transform styles */
+    .cube {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transform: translateZ(-100px) rotateX(0deg) rotateY(0deg);
+      transition: transform 0.5s;
+      cursor: grab;
+    }
+
+    /* Cube faces */
+    .cube__face {
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5em;
+      font-weight: bold;
+      color: white;
+      backface-visibility: hidden;
+    }
+
+    .cube__face--front  { background: blue; transform: rotateY(  0deg) translateZ(100px); }
+    .cube__face--back   { background: red; transform: rotateY(180deg) translateZ(100px); }
+    .cube__face--right  { background: green; transform: rotateY( 90deg) translateZ(100px); }
+    .cube__face--left   { background: yellow; transform: rotateY(-90deg) translateZ(100px); }
+    .cube__face--top    { background: purple; transform: rotateX( 90deg) translateZ(100px); }
+    .cube__face--bottom { background: pink; transform: rotateX(-90deg) translateZ(100px); }
+
+    /* Arrow controls */
+    .arrows {
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .arrow {
+      width: 40px;
+      height: 40px;
+      background-color: #333;
+      color: white;
+      font-size: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      position: absolute;
+    }
+
+    .arrow:hover {
+      background-color: #555;
+    }
+
+    .arrow.up { top: -60px; left: calc(50% - 20px); }
+    .arrow.down { bottom: -60px; left: calc(50% - 20px); }
+    .arrow.left { left: -60px; top: calc(50% - 20px); }
+    .arrow.right { right: -60px; top: calc(50% - 20px); }
+  </style>
+</head>
+<body>
+  <div class="scene">
+    <div class="cube" id="cube">
+      <div class="cube__face cube__face--front">Front</div>
+      <div class="cube__face cube__face--back">Back</div>
+      <div class="cube__face cube__face--right">Right</div>
+      <div class="cube__face cube__face--left">Left</div>
+      <div class="cube__face cube__face--top">Top</div>
+      <div class="cube__face cube__face--bottom">Bottom</div>
+    </div>
+    <div class="arrows">
+      <div class="arrow up" onclick="rotateCube('up')">↑</div>
+      <div class="arrow down" onclick="rotateCube('down')">↓</div>
+      <div class="arrow left" onclick="rotateCube('left')">←</div>
+      <div class="arrow right" onclick="rotateCube('right')">→</div>
+    </div>
+  </div>
+
+  <script>
+    const cube = document.getElementById('cube');
+    let isDragging = false;
+    let startX, startY;
+    let currentX = 0, currentY = 0;
+
+    // Handle mouse down
+    cube.addEventListener('mousedown', (e) => {
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      cube.style.transition = 'none'; // Disable transition during drag
+    });
+
+    // Handle mouse move
+    window.addEventListener('mousemove', (e) => {
+      if (!isDragging) return;
+      const deltaX = e.clientX - startX;
+      const deltaY = e.clientY - startY;
+      currentX -= deltaY * 0.5; // Correct dragging direction
+      currentY += deltaX * 0.5;
+      cube.style.transform = `translateZ(-100px) rotateX(${currentX}deg) rotateY(${currentY}deg)`;
+      startX = e.clientX;
+      startY = e.clientY;
+    });
+
+    // Handle mouse up
+    window.addEventListener('mouseup', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      cube.style.transition = 'transform 0.5s'; // Enable transition
+      snapToNearestFace();
+    });
+
+    // Snap cube to the nearest face
+    function snapToNearestFace() {
+      const snapX = Math.round(currentX / 90) * 90;
+      const snapY = Math.round(currentY / 90) * 90;
+      currentX = snapX;
+      currentY = snapY;
+      cube.style.transform = `translateZ(-100px) rotateX(${snapX}deg) rotateY(${snapY}deg)`;
+    }
+
+    // Rotate cube using arrow controls
+    function rotateCube(direction) {
+      switch (direction) {
+        case 'up': currentX -= 90; break;
+        case 'down': currentX += 90; break;
+        case 'left': currentY -= 90; break;
+        case 'right': currentY += 90; break;
+      }
+      cube.style.transform = `translateZ(-100px) rotateX(${currentX}deg) rotateY(${currentY}deg)`;
+    }
+  </script>
+</body>
+</html>
