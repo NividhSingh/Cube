@@ -1,0 +1,55 @@
+<div class="relative">
+  <!-- Image -->
+  <img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTNjIq_zlvr3PguKVtBJ-DTJqCav-doacUyYIGhlq4Cfv4Q1UZs" alt="Interactive Image" class="w-full h-auto" />
+
+  <!-- Clickable Area 1 -->
+  <div
+    class="absolute top-10 left-20 bg-blue-500 bg-opacity-50 rounded-full w-10 h-10 cursor-pointer"
+    onclick="togglePopup('popup1')"
+  ></div>
+
+  <!-- Clickable Area 2 -->
+  <div
+    class="absolute top-40 left-60 bg-red-500 bg-opacity-50 rounded-full w-10 h-10 cursor-pointer"
+    onclick="togglePopup('popup2')"
+  ></div>
+
+  <!-- Popup 1 -->
+  <div
+    id="popup1"
+    class="hidden absolute top-16 left-24 bg-white shadow-lg p-4 rounded-md border"
+  >
+    <p class="text-gray-800">This is the description for Area 1.</p>
+    <button
+      class="mt-2 text-blue-500 hover:underline"
+      onclick="togglePopup('popup1')"
+    >
+      Close
+    </button>
+  </div>
+
+  <!-- Popup 2 -->
+  <div
+    id="popup2"
+    class="hidden absolute top-48 left-64 bg-white shadow-lg p-4 rounded-md border"
+  >
+    <p class="text-gray-800">This is the description for Area 2.</p>
+    <button
+      class="mt-2 text-blue-500 hover:underline"
+      onclick="togglePopup('popup2')"
+    >
+      Close
+    </button>
+  </div>
+</div>
+
+<script>
+  function togglePopup(id) {
+    const popup = document.getElementById(id);
+    if (popup.classList.contains('hidden')) {
+      popup.classList.remove('hidden');
+    } else {
+      popup.classList.add('hidden');
+    }
+  }
+</script>
