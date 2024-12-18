@@ -9,12 +9,10 @@ float angle = 45; //-7.12; //-45;
 float pitch = 0.0;
 bool debug = false;
 
-// 30
-
 // Define PID parameters
 double Kp = 140;  // Proportional gain
-double Ki = 0.0008; //0.0001;//.000001;//0.00005;  // Integral gain
-double Kd = 10.1; //100; //250;//.01;//0010;  // Derivative gain
+double Ki = 0.0008; // Integral gain
+double Kd = 10.1; // Derivative gain
 int direction = 0;
 
 float alpha = .99;
@@ -39,23 +37,15 @@ const int startstopPin = 12;    // Pin for motor enable/disable
 
 
 void setup() {
-  // Initialize serial communication for debugging and input
-  //Serial.begin(9600);
-
-  //Serial.println("Starting");
-  // IMU
+  
   Wire.begin();
 
   if (!mpu.setup(0x68)) {
-    // // // Serial.println("MPU9250 connection failed!");
     while (1);
   }
   
-  // // // Serial.println("Calibrating gyroscope...");
   calibrateGyro();
   filter.begin(100);
-
-
 
   // Motor
   pinMode(pwmPin, OUTPUT);
@@ -66,7 +56,6 @@ void setup() {
   digitalWrite(startstopPin, HIGH);
   
   lastPrint = millis();
-  // // // Serial.println("Motor enabled");
 }
 
 void loop() {
@@ -118,23 +107,6 @@ void loop() {
       analogWrite(pwmPin, 255 - int(abs(output)));
     }
 
-    // Optional debugging output
-if (debug) {
-  Serial.print(millis());
-  Serial.print("\t");
-  Serial.print(error);
-  Serial.print("\t");
-  Serial.print(derivativeTerm);
-  Serial.print("\t");
-  Serial.print(proportional);
-  Serial.print("\t");
-  Serial.print(integralTerm, 5);
-  Serial.print("\t");
-  Serial.print(output);
-
-  // Ensure a newline at the end of the debug block
-  Serial.println();
-}
   }
 
   // Process serial input for tuning PID parameters
@@ -161,16 +133,16 @@ void processSerialInput() {
 void parseCommand(String command) {
   if (command.startsWith("Kp ")) {
     Kp = command.substring(3).toFloat();
-    // // Serial.print("Kp updated to: ");
-    // // // Serial.println(Kp);
+    // Serial.print("Kp updated to: ");
+    // Serial.println(Kp);
   } else if (command.startsWith("Ki ")) {
     Ki = command.substring(3).toFloat();
-    // // Serial.print("Ki updated to: ");
-    // // // Serial.println(Ki);
+    // Serial.print("Ki updated to: ");
+    // Serial.println(Ki);
   } else if (command.startsWith("Kd ")) {
     Kd = command.substring(3).toFloat();
-    // // Serial.print("Kd updated to: ");
-    // // // Serial.println(Kd);
+    // Serial.print("Kd updated to: ");
+    // Serial.println(Kd);
   } else {
     // Serial.println("Unknown command. Use Kp, Ki, or Kd followed by a value.");
   }
@@ -182,27 +154,25 @@ void calibrateGyro() {
   float sumX = 0, sumY = 0, sumZ = 0;
 
   for (int i = 0; i < numSamples; i++) {
-    // if (i % 100 == 0) {
-    //   Serial.println(sumZ / i);
-    // }
+
     mpu.update();
     sumX += mpu.getGyroX();
     sumY += mpu.getGyroY();
     sumZ += mpu.getGyroZ();
-    //delay(10); // Small delay between samples
+    // delay(10); // Small delay between samples
   }
 
   // gyroXOffset = sumX / numSamples;
   // gyroYOffset = sumY / numSamples;
   gyroYOffset = sumY / numSamples;
-  //Serial.print("GyroOffset: ");
-  //Serial.println(gyroYOffset);
-  // // Serial.print(gyroXOffset);
-  // // Serial.print(" ");
-  // // Serial.print(gyroYOffset);
-  // // Serial.print(" ");
-  // // Serial.print(gyroZOffset);
-  // // Serial.print(" ");
-  // // // Serial.println("Gyroscope calibrated!");
+  // Serial.print("GyroOffset: ");
+  // Serial.println(gyroYOffset);
+  // Serial.print(gyroXOffset);
+  // Serial.print(" ");
+  // Serial.print(gyroYOffset);
+  // Serial.print(" ");
+  // Serial.print(gyroZOffset);
+  // Serial.print(" ");
+  // Serial.println("Gyroscope calibrated!");
   
 }
