@@ -128,12 +128,20 @@
         <div class="relative aspect-w-16 aspect-h-9 mx-auto max-w-4xl">
           <iframe
             class="w-full h-full rounded-lg"
-            src="https://www.youtube.com/shorts/Wa0KHk2OxYs" <!-- Replace with your YouTube video link -->
-            title="Project Demonstration"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+            src="https://www.youtube.com/shorts/Wa0KHk2OxYs"
+            <!--
+            Replace
+            with
+            your
+            YouTube
+            video
+            link
+            --
+          >
+            title="Project Demonstration" frameborder="0" allow="accelerometer;
+            autoplay; clipboard-write; encrypted-media; gyroscope;
+            picture-in-picture" allowfullscreen ></iframe
+          >
         </div>
       </div>
     </div>
@@ -154,7 +162,10 @@
           </div>
         </div>
         <!-- Card 2 -->
-        <div class="card" onclick="window.location.href='pages/billofmaterials.html'">
+        <div
+          class="card"
+          onclick="window.location.href='pages/billofmaterials.html'"
+        >
           <img src="src/images/piggy_bank.png" alt="Card 2" />
           <div class="card-overlay">
             <h2 class="text-2xl font-bold">Bill of Materials</h2>
@@ -164,7 +175,10 @@
           </div>
         </div>
         <!-- Card 3 -->
-        <div class="card" onclick="window.location.href='https://google.com'">
+        <div
+          class="card"
+          onclick="window.location.href='pages/mechanical-design.html'"
+        >
           <img src="https://via.placeholder.com/400x300" alt="Card 3" />
           <div class="card-overlay">
             <h2 class="text-2xl font-bold">Mechanical Design</h2>
@@ -234,6 +248,80 @@
       </div>
     </div>
 
+    <!-- The Team Section -->
+    <div id="team" class="py-12 bg-gray-100">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-8">The Team</h2>
+        <div id="team-members" class="flex flex-wrap justify-center gap-8">
+          <!-- Team Member 1 -->
+          <div class="team-member flex flex-col items-center">
+            <div
+              class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+            >
+              <img
+                src="https://via.placeholder.com/150"
+                alt="Team Member 1"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <p class="mt-4 text-lg font-medium">Nividh Singh</p>
+          </div>
+          <!-- Team Member 2 -->
+          <div class="team-member flex flex-col items-center">
+            <div
+              class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+            >
+              <img
+                src="https://via.placeholder.com/150"
+                alt="Team Member 2"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <p class="mt-4 text-lg font-medium">Anthony Cheung</p>
+          </div>
+          <!-- Team Member 3 -->
+          <div class="team-member flex flex-col items-center">
+            <div
+              class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+            >
+              <img
+                src="https://via.placeholder.com/150"
+                alt="Team Member 3"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <p class="mt-4 text-lg font-medium">Cian Linehan</p>
+          </div>
+          <!-- Team Member 4 -->
+          <div class="team-member flex flex-col items-center">
+            <div
+              class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+            >
+              <img
+                src="https://via.placeholder.com/150"
+                alt="Team Member 4"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <p class="mt-4 text-lg font-medium">Ahan Trivedi</p>
+          </div>
+          <!-- Team Member 5 -->
+          <div class="team-member flex flex-col items-center">
+            <div
+              class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+            >
+              <img
+                src="https://via.placeholder.com/150"
+                alt="Team Member 5"
+                class="w-full h-full object-cover"
+              />
+            </div>
+            <p class="mt-4 text-lg font-medium">Ishan Porwal</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script>
       const carouselItems = document.querySelectorAll(".carousel-item");
       let currentIndex = 0;
@@ -263,6 +351,16 @@
 
       // Initialize carousel
       updateCarousel();
+
+      function shuffleTeamMembers() {
+        const teamContainer = document.getElementById("team-members");
+        const teamMembers = Array.from(teamContainer.children);
+        teamMembers.sort(() => Math.random() - 0.5); // Shuffle the array
+        teamMembers.forEach((member) => teamContainer.appendChild(member)); // Re-append in random order
+      }
+
+      document.addEventListener("DOMContentLoaded", shuffleTeamMembers);
+
     </script>
   </body>
 </html>
