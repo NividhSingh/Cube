@@ -12,9 +12,9 @@ bool debug = false;
 // 30
 
 // Define PID parameters
-double Kp = 45;  // Proportional gain
+double Kp = 60;  // Proportional gain
 double Ki = 0.0; //0.0001;//.000001;//0.00005;  // Integral gain
-double Kd = 10; //100; //250;//.01;//0010;  // Derivative gain
+double Kd = 4; //100; //250;//.01;//0010;  // Derivative gain
 int direction = 0;
 
 float alpha = .99;
@@ -42,27 +42,27 @@ void setup() {
   // Initialize serial communication for debugging and input
   Serial.begin(9600);
 
-  Serial.println("Starting");
+  // Serial.println("Starting");
   // IMU
   Wire.begin();
 
   if (!mpu.setup(0x68)) {
-    // // Serial.println("MPU9250 connection failed!");
+    // // // Serial.println("MPU9250 connection failed!");
     while (1);
   }
   
-  // // Serial.println("Calibrating gyroscope...");
+  // // // Serial.println("Calibrating gyroscope...");
   calibrateGyro();
   filter.begin(16);
 
 
 
   // PID Controller
-  // // Serial.println("PID Controller Initialized");
-  // // Serial.println("Commands:");
-  // // Serial.println("SET Kp value - e.g., Kp 2.5");
-  // // Serial.println("SET Ki value - e.g., Ki 0.7");
-  // // Serial.println("SET Kd value - e.g., Kd 1.2");
+  // // // Serial.println("PID Controller Initialized");
+  // // // Serial.println("Commands:");
+  // // // Serial.println("SET Kp value - e.g., Kp 2.5");
+  // // // Serial.println("SET Ki value - e.g., Ki 0.7");
+  // // // Serial.println("SET Kd value - e.g., Kd 1.2");
 
 
 
@@ -75,7 +75,7 @@ void setup() {
   digitalWrite(startstopPin, HIGH);
   
   lastPrint = millis();
-  // // Serial.println("Motor enabled");
+  // // // Serial.println("Motor enabled");
 }
 
 void loop() {
@@ -99,7 +99,7 @@ void loop() {
 
      // // Serial.print("Calibrated Gyro X: "); // // Serial.print(gyroX);
      // // Serial.print("\tY: "); // // Serial.print(gyroY);
-     // // Serial.print("\tZ: "); // // Serial.println(gyroZ);
+     // // Serial.print("\tZ: "); // // // Serial.println(gyroZ);
     // // // Serial.print("X: ");
     // // // Serial.print(mpu.getAccX());
     // // // Serial.print("\t"); // Add a tab for better alignment
@@ -109,7 +109,7 @@ void loop() {
     // // // Serial.print("\t"); // Add a tab for better alignment
 
     // // // Serial.print("Z: ");
-    // // // Serial.println(mpu.getAccZ()); // Use println to move to the next line
+    // // // // Serial.println(mpu.getAccZ()); // Use println to move to the next line
 
     //delay(10);
   }
@@ -174,12 +174,12 @@ void loop() {
   // output = constrain(output, -154 , 154);
 
   Serial.print("\t");
-  Serial.println(output);
+  // Serial.println(output);
   
   prevError = error;
 
   if (derivativeTerm != 0) {
-    //Serial.println(derivativeTerm);
+    //// Serial.println(derivativeTerm);
   }
 
   // Calculate the output
@@ -203,18 +203,18 @@ void loop() {
   // Constrain the output to the valid range (e.g., 0-255 for PWM)
 
   // // Serial.print("output: ");
-  // // Serial.println(output);
-  // // Serial.println(abs(output));
+  // // // Serial.println(output);
+  // // // Serial.println(abs(output));
 
   if (output < 0) {
-    //Serial.println(direction);
+    //// Serial.println(direction);
     // if (direction != -1) {
     //   analogWrite(pwmPin, 0);           // Stop motor
     //   direction = -1;
     // }
     // Spin the motor in the opposite direction at max speed
     digitalWrite(directionPin, HIGH);  // Set direction to reverse
-    // // Serial.println("Motor spinning in reverse at max speed");
+    // // // Serial.println("Motor spinning in reverse at max speed");
     analogWrite(pwmPin, 255 - int(abs(output)));         // Max speed (100% duty cycle)
   }
   else {
@@ -223,7 +223,7 @@ void loop() {
     //   direction = 1;
     // }
     digitalWrite(directionPin, LOW); // Set direction to forward
-    // // Serial.println("Motor spinning forward at max speed");
+    // // // Serial.println("Motor spinning forward at max speed");
     analogWrite(pwmPin, 255 - int(abs(output) ));         // Max speed (100% duty cycle)
   }
 
@@ -238,7 +238,7 @@ void loop() {
     Serial.print(error);
     Serial.print("\tAngle: ");
     Serial.print(angle);
-    Serial.println();
+    // Serial.println();
 
 
     lastPrint = millis();
@@ -249,7 +249,7 @@ void loop() {
   // // Serial.print("\tKi: ");
   // // Serial.print(Ki);
   // // Serial.print("\tKd: ");
-  // // Serial.println(Kd);
+  // // // Serial.println(Kd);
 
   // Update previous values
   lastTime = currentTime;
@@ -277,17 +277,17 @@ void parseCommand(String command) {
   if (command.startsWith("Kp ")) {
     Kp = command.substring(3).toFloat();
     // // Serial.print("Kp updated to: ");
-    // // Serial.println(Kp);
+    // // // Serial.println(Kp);
   } else if (command.startsWith("Ki ")) {
     Ki = command.substring(3).toFloat();
     // // Serial.print("Ki updated to: ");
-    // // Serial.println(Ki);
+    // // // Serial.println(Ki);
   } else if (command.startsWith("Kd ")) {
     Kd = command.substring(3).toFloat();
     // // Serial.print("Kd updated to: ");
-    // // Serial.println(Kd);
+    // // // Serial.println(Kd);
   } else {
-    Serial.println("Unknown command. Use Kp, Ki, or Kd followed by a value.");
+    // Serial.println("Unknown command. Use Kp, Ki, or Kd followed by a value.");
   }
 }
 
@@ -298,7 +298,7 @@ void calibrateGyro() {
 
   for (int i = 0; i < numSamples; i++) {
     if (i % 100 == 0) {
-      Serial.println(sumZ / i);
+      // Serial.println(sumZ / i);
     }
     mpu.update();
     sumX += mpu.getGyroX();
@@ -311,13 +311,13 @@ void calibrateGyro() {
   // gyroYOffset = sumY / numSamples;
   gyroYOffset = sumY / numSamples;
   Serial.print("GyroOffset: ");
-  Serial.println(gyroYOffset);
+  // Serial.println(gyroYOffset);
   // // Serial.print(gyroXOffset);
   // // Serial.print(" ");
   // // Serial.print(gyroYOffset);
   // // Serial.print(" ");
   // // Serial.print(gyroZOffset);
   // // Serial.print(" ");
-  // // Serial.println("Gyroscope calibrated!");
+  // // // Serial.println("Gyroscope calibrated!");
   
 }
