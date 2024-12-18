@@ -1,18 +1,144 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cube Interaction</title>
-</head>
-<body>
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-  <model-viewer 
-    src="../Cube.glb" 
-    alt="3D CAD Model"
-    auto-rotate 
-    camera-controls 
-    style="width: 100%; height: 500px;">
-  </model-viewer>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Secondary Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom transition for smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+      .hamburger-menu {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 50;
+        cursor: pointer;
+      }
+      .menu-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 40;
+      }
+      .menu-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .menu-overlay a {
+        text-decoration: none;
+        color: white;
+        font-size: 1.5rem;
+        margin: 1rem 0;
+        transition: color 0.3s ease;
+      }
+      .menu-overlay a:hover {
+        color: gray;
+      }
+    </style>
+  </head>
+  <body class="font-sans">
+    <!-- Hamburger Menu -->
+    <div id="hamburger" class="hamburger-menu">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-8 w-8 text-white"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M4 6h16M4 12h16m-7 6h7"
+        />
+      </svg>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div id="menu" class="menu-overlay">
+      <a href="/">Home</a>
+      <a href="pages/system-overview.html">System Overview</a>
+      <a href="pages/our-journey.html">Our Journey</a>
+      <a href="pages/bill-of-materials.html">Bill of Materials</a>
+      <a href="pages/mechanical-design.html">Mechanical Design</a>
+      <a href="pages/firmware-design.html">Firmware Design</a>
+      <a href="pages/electrical-design.html">Electical Design</a>
+    </div>
+
+    <!-- Header Section with Background Image -->
+    <div
+      class="relative h-96 bg-cover bg-center"
+      style="background-image: url('../images/IMG_5110.jpeg')"
+    >
+      <div
+        class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center"
+      >
+        <h1 class="text-white text-4xl font-bold">Mechanical Design</h1>
+      </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="py-12 bg-gray-100">
+      <div class="container mx-auto px-6 text-center">
+        <p class="text-lg">
+          Add your content for the secondary page here. This is a placeholder
+          for page-specific details.
+        </p>
+        <!DOCTYPE html>
+        <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1.0"
+            />
+            <title>Cube Interaction</title>
+          </head>
+          <body>
+            <script
+              type="module"
+              src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
+            ></script>
+            <model-viewer
+              src="../Cube.glb"
+              alt="3D CAD Model"
+              auto-rotate
+              camera-controls
+              style="width: 100%; height: 500px"
+            >
+            </model-viewer>
+          </body>
+        </html>
+      </div>
+    </div>
+
+    <script>
+      const hamburger = document.getElementById("hamburger");
+      const menu = document.getElementById("menu");
+
+      // Toggle the menu when the hamburger icon is clicked
+      hamburger.addEventListener("click", () => {
+        menu.classList.toggle("active");
+      });
+
+      // Close the menu when a link is clicked
+      menu.addEventListener("click", (event) => {
+        if (event.target.tagName === "A") {
+          menu.classList.remove("active");
+        }
+      });
+    </script>
+  </body>
 </html>
