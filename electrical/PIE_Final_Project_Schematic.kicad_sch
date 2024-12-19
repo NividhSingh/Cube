@@ -782,6 +782,197 @@
 				)
 			)
 		)
+		(symbol "PIE_Symbol_Libary:xt-60"
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "U"
+				(at -2.286 -0.508 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Value" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" ""
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "xt-60_1_1"
+				(text_box ""
+					(at -5.08 -2.54 0)
+					(size 16.51 0)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+						(justify left top)
+					)
+				)
+				(text_box ""
+					(at -5.08 3.81 0)
+					(size 0 -6.35)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+						(justify left top)
+					)
+				)
+				(text_box ""
+					(at -5.08 3.81 0)
+					(size 16.51 0)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+						(justify left top)
+					)
+				)
+				(text_box ""
+					(at 11.43 3.81 0)
+					(size 0 -6.35)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+					(effects
+						(font
+							(size 1.27 1.27)
+						)
+						(justify left top)
+					)
+				)
+				(pin output line
+					(at 1.27 -5.08 90)
+					(length 2.54)
+					(name "+12V"
+						(effects
+							(font
+								(size 0.635 0.635)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 0.635 0.635)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at 6.35 6.35 270)
+					(length 2.54)
+					(name "+12V"
+						(effects
+							(font
+								(size 0.635 0.635)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 0.635 0.635)
+							)
+						)
+					)
+				)
+				(pin input line
+					(at -1.27 6.35 270)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 0.635 0.635)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 0.635 0.635)
+							)
+						)
+					)
+				)
+				(pin output line
+					(at 5.08 -5.08 90)
+					(length 2.54)
+					(name "GND"
+						(effects
+							(font
+								(size 0.635 0.635)
+							)
+						)
+					)
+					(number ""
+						(effects
+							(font
+								(size 0.635 0.635)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "Sensor_Motion:MPU-9250"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -1115,6 +1306,151 @@
 				)
 			)
 		)
+		(symbol "Switch:SW_Push"
+			(pin_numbers hide)
+			(pin_names
+				(offset 1.016) hide)
+			(exclude_from_sim no)
+			(in_bom yes)
+			(on_board yes)
+			(property "Reference" "SW"
+				(at 1.27 2.54 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(justify left)
+				)
+			)
+			(property "Value" "SW_Push"
+				(at 0 -1.524 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Datasheet" "~"
+				(at 0 5.08 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "Description" "Push button switch, generic, two pins"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(property "ki_keywords" "switch normally-open pushbutton push-button"
+				(at 0 0 0)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+					(hide yes)
+				)
+			)
+			(symbol "SW_Push_0_1"
+				(circle
+					(center -2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 0 1.27) (xy 0 3.048)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(polyline
+					(pts
+						(xy 2.54 1.27) (xy -2.54 1.27)
+					)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(circle
+					(center 2.032 0)
+					(radius 0.508)
+					(stroke
+						(width 0)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+				(pin passive line
+					(at -5.08 0 0)
+					(length 2.54)
+					(name "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "1"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+				(pin passive line
+					(at 5.08 0 180)
+					(length 2.54)
+					(name "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+					(number "2"
+						(effects
+							(font
+								(size 1.27 1.27)
+							)
+						)
+					)
+				)
+			)
+		)
 		(symbol "pie:3S_Lipo_Battery_5200mAh"
 			(exclude_from_sim no)
 			(in_bom yes)
@@ -1220,6 +1556,10 @@
 		(uuid "07b32de4-8f6f-428d-b50f-473b561b08c6")
 	)
 	(no_connect
+		(at 104.14 109.22)
+		(uuid "0ef76887-ef2d-495f-bbb3-4789970e08d3")
+	)
+	(no_connect
 		(at 129.54 81.28)
 		(uuid "10608be3-5893-484c-ac62-516933922d5f")
 	)
@@ -1228,8 +1568,20 @@
 		(uuid "14ddd9a1-3cab-4a04-b21d-5724a97c9407")
 	)
 	(no_connect
+		(at 104.14 81.28)
+		(uuid "1e2a8312-1cfe-48ad-b172-3015733cde82")
+	)
+	(no_connect
+		(at 104.14 96.52)
+		(uuid "28b65556-2a31-4042-abd6-fbbe5e0b9b24")
+	)
+	(no_connect
 		(at 121.92 68.58)
 		(uuid "4162d27a-fd04-4689-98bd-6d5857e78924")
+	)
+	(no_connect
+		(at 104.14 93.98)
+		(uuid "4e95ce84-5e58-4b3f-8d21-32359ee06640")
 	)
 	(no_connect
 		(at 129.54 78.74)
@@ -1244,8 +1596,20 @@
 		(uuid "60e0fd4d-1edc-4afd-9491-7bd0e2364f5b")
 	)
 	(no_connect
+		(at 104.14 73.66)
+		(uuid "6301b79a-4887-479b-a453-f59e6bc58a57")
+	)
+	(no_connect
+		(at 104.14 111.76)
+		(uuid "65dd63d2-5a4c-4730-bc23-6e2d04e91c01")
+	)
+	(no_connect
 		(at 129.54 99.06)
 		(uuid "6b0c5efe-fa92-4a3c-9a53-dac219cc559f")
+	)
+	(no_connect
+		(at 104.14 86.36)
+		(uuid "9206b5ac-4429-41f3-9340-45ab8eae9750")
 	)
 	(no_connect
 		(at 129.54 111.76)
@@ -1256,8 +1620,20 @@
 		(uuid "9d370899-ff0b-45c4-b2e7-d93c502f8af3")
 	)
 	(no_connect
+		(at 104.14 76.2)
+		(uuid "a8c1356a-de90-4b30-a5fa-150ff84182dd")
+	)
+	(no_connect
 		(at 176.53 87.63)
 		(uuid "b791904c-9ed6-49f0-aff0-5ce5e30fb2ca")
+	)
+	(no_connect
+		(at 104.14 101.6)
+		(uuid "b9f3a6a7-bd8a-4e3d-a16d-6430c087dfa3")
+	)
+	(no_connect
+		(at 104.14 106.68)
+		(uuid "bb56704e-511f-4462-88f1-a7dfb9225265")
 	)
 	(no_connect
 		(at 156.21 72.39)
@@ -1284,6 +1660,10 @@
 		(uuid "f1c49fe8-ed6f-4e59-aa5a-9a1b548c8106")
 	)
 	(no_connect
+		(at 104.14 88.9)
+		(uuid "f29b877b-5a64-439e-a76e-a28eb3c25b7c")
+	)
+	(no_connect
 		(at 129.54 93.98)
 		(uuid "f34cbc75-03ba-439c-b713-7fd08f8f993a")
 	)
@@ -1297,83 +1677,33 @@
 	)
 	(wire
 		(pts
-			(xy 101.6 107.95) (xy 101.6 101.6)
+			(xy 116.84 133.35) (xy 120.65 133.35)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "0eca7992-2d44-4df8-8c3e-4c77d1db4820")
+		(uuid "150ed3e8-3406-4ca9-b68a-3daf928c575a")
 	)
 	(wire
 		(pts
-			(xy 101.6 91.44) (xy 104.14 91.44)
+			(xy 99.06 96.52) (xy 102.87 96.52)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "13eca11d-3b71-40b1-abaf-ab1e577565d7")
+		(uuid "1f57884b-05a3-48ce-85f4-87ea6a9c64f2")
 	)
 	(wire
 		(pts
-			(xy 100.33 96.52) (xy 100.33 95.25)
+			(xy 99.06 93.98) (xy 101.6 93.98)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "1455cbbc-5d18-4d04-9cd9-91be436e03ba")
-	)
-	(wire
-		(pts
-			(xy 100.33 109.22) (xy 99.06 109.22)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "1fd0c0e6-7643-4048-9203-99fd3130b910")
-	)
-	(wire
-		(pts
-			(xy 99.06 93.98) (xy 100.33 93.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2344850d-c805-4381-aa84-cff3d28b44a8")
-	)
-	(wire
-		(pts
-			(xy 102.87 93.98) (xy 102.87 97.79)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "24645d9c-aa1b-47f6-adf2-d7b203270bbf")
-	)
-	(wire
-		(pts
-			(xy 100.33 106.68) (xy 100.33 99.06)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "2e0a0cef-459a-4aa7-925b-5a960d495409")
-	)
-	(wire
-		(pts
-			(xy 100.33 99.06) (xy 104.14 99.06)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "339c99b4-0b67-4c0c-913f-0193ee2e4107")
+		(uuid "27f6f9e8-ea9d-4027-94b1-3382679ee5d0")
 	)
 	(wire
 		(pts
@@ -1387,33 +1717,13 @@
 	)
 	(wire
 		(pts
-			(xy 99.06 86.36) (xy 104.14 86.36)
+			(xy 116.84 125.73) (xy 120.65 125.73)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "4a746d82-12cd-4365-b2a8-594b31e663c0")
-	)
-	(wire
-		(pts
-			(xy 99.06 106.68) (xy 100.33 106.68)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "635e76ec-111e-4d87-9c15-1d983f35e582")
-	)
-	(wire
-		(pts
-			(xy 100.33 107.95) (xy 100.33 109.22)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6465b092-12a9-4cc6-89ed-a9a19a25507d")
+		(uuid "5bdda711-209b-469f-ae56-6d520a4d04ec")
 	)
 	(wire
 		(pts
@@ -1427,33 +1737,13 @@
 	)
 	(wire
 		(pts
-			(xy 102.87 111.76) (xy 102.87 106.68)
+			(xy 102.87 91.44) (xy 104.14 91.44)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "6b0afd91-195d-43a8-9ee1-1287097aa1b2")
-	)
-	(wire
-		(pts
-			(xy 99.06 99.06) (xy 99.06 97.79)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "6f84670d-b63a-4505-835d-ef569b29569b")
-	)
-	(wire
-		(pts
-			(xy 99.06 83.82) (xy 104.14 83.82)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7b669808-dc54-44d2-87b8-7d5445b8dbff")
+		(uuid "7584d661-1273-4242-81dc-5d7d5d7e60f5")
 	)
 	(wire
 		(pts
@@ -1464,16 +1754,6 @@
 			(type default)
 		)
 		(uuid "880cc9e5-aff8-4efc-b520-2fd9b718841e")
-	)
-	(wire
-		(pts
-			(xy 101.6 95.25) (xy 101.6 91.44)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "8ae9cb05-8da5-45c0-b029-c9c3ddc0eda7")
 	)
 	(wire
 		(pts
@@ -1507,26 +1787,6 @@
 	)
 	(wire
 		(pts
-			(xy 99.06 81.28) (xy 104.14 81.28)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "9f142765-55ee-4763-b812-bfa4abd29ef8")
-	)
-	(wire
-		(pts
-			(xy 99.06 111.76) (xy 102.87 111.76)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a222e132-dbfb-4ae6-9d60-f6521a1dea90")
-	)
-	(wire
-		(pts
 			(xy 132.08 87.63) (xy 132.08 104.14)
 		)
 		(stroke
@@ -1534,16 +1794,6 @@
 			(type default)
 		)
 		(uuid "a480fa09-202b-4c60-b856-cd0a13c8fae7")
-	)
-	(wire
-		(pts
-			(xy 100.33 93.98) (xy 100.33 88.9)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "a5c40373-4a56-45f0-ba39-19d0913963ce")
 	)
 	(wire
 		(pts
@@ -1557,43 +1807,13 @@
 	)
 	(wire
 		(pts
-			(xy 102.87 106.68) (xy 104.14 106.68)
+			(xy 99.06 99.06) (xy 104.14 99.06)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "b09c8e8d-2bb5-4ff2-ba4d-654233f4381d")
-	)
-	(wire
-		(pts
-			(xy 101.6 101.6) (xy 104.14 101.6)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b1b99a41-1291-481c-9c46-190ed781f7ad")
-	)
-	(wire
-		(pts
-			(xy 102.87 93.98) (xy 104.14 93.98)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b2d4443c-0b77-42c9-9d0a-406a390e1152")
-	)
-	(wire
-		(pts
-			(xy 99.06 96.52) (xy 100.33 96.52)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "b68bf623-900a-46d7-b477-daa2006a3aa4")
+		(uuid "b481bc8f-d239-4e30-8840-0ba4e827adc7")
 	)
 	(wire
 		(pts
@@ -1607,13 +1827,33 @@
 	)
 	(wire
 		(pts
-			(xy 100.33 88.9) (xy 104.14 88.9)
+			(xy 101.6 83.82) (xy 104.14 83.82)
 		)
 		(stroke
 			(width 0)
 			(type default)
 		)
-		(uuid "c9801257-69d7-4dcd-a5e0-89cb09494de2")
+		(uuid "c149397f-7e48-4509-a450-d5b391d5fdce")
+	)
+	(wire
+		(pts
+			(xy 102.87 96.52) (xy 102.87 91.44)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c42edcf8-3721-4aa8-8088-f7e3afe57175")
+	)
+	(wire
+		(pts
+			(xy 101.6 93.98) (xy 101.6 83.82)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "c8e1e88d-aa21-466a-b12c-1e0afc90c525")
 	)
 	(wire
 		(pts
@@ -1635,49 +1875,6 @@
 		)
 		(uuid "e40732c7-8de0-4adc-a19b-3aa402a79f7b")
 	)
-	(wire
-		(pts
-			(xy 100.33 95.25) (xy 101.6 95.25)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "e6d64c55-9e38-40dd-b79a-3356cc3f3f63")
-	)
-	(wire
-		(pts
-			(xy 101.6 107.95) (xy 100.33 107.95)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "ea525305-e25e-44ba-bdc0-15feed4fabf9")
-	)
-	(wire
-		(pts
-			(xy 99.06 97.79) (xy 102.87 97.79)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "f9b5367b-c1c0-40be-a378-d286a1711d6e")
-	)
-	(text "Nidec Motor"
-		(exclude_from_sim no)
-		(at 93.218 101.092 90)
-		(effects
-			(font
-				(size 1.016 1.016)
-				(thickness 0.254)
-				(bold yes)
-			)
-			(justify right bottom)
-		)
-		(uuid "25b3ab70-5bf7-4567-bef3-213b79210908")
-	)
 	(text "Arduino \nNano\n"
 		(exclude_from_sim no)
 		(at 113.03 95.25 0)
@@ -1691,9 +1888,22 @@
 		)
 		(uuid "322adfd3-e0a1-41a2-b65d-c3ebf29f6030")
 	)
+	(text "xt-60"
+		(exclude_from_sim no)
+		(at 113.03 132.334 90)
+		(effects
+			(font
+				(size 1.016 1.016)
+				(thickness 0.254)
+				(bold yes)
+			)
+			(justify left bottom)
+		)
+		(uuid "66e107cc-4267-45bd-ac6f-a79fe97bad7f")
+	)
 	(text "3S Lipo Battery \n5200mAh"
 		(exclude_from_sim no)
-		(at 101.6 130.81 90)
+		(at 133.35 137.16 90)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -1730,19 +1940,6 @@
 		)
 		(uuid "cf5afaad-7200-471f-97e0-08356d343201")
 	)
-	(text "Nidec Motor"
-		(exclude_from_sim no)
-		(at 93.218 75.692 90)
-		(effects
-			(font
-				(size 1.016 1.016)
-				(thickness 0.254)
-				(bold yes)
-			)
-			(justify right bottom)
-		)
-		(uuid "f05ffd82-ab1a-4ffa-8acc-df9d105c6e1b")
-	)
 	(label "+12V"
 		(at 99.06 88.9 0)
 		(fields_autoplaced yes)
@@ -1755,51 +1952,18 @@
 		(uuid "0098585e-763b-451c-b95f-a186751247f2")
 	)
 	(label "+12V"
-		(at 99.06 101.6 0)
+		(at 95.25 128.27 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 0.762 0.762)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
-		(uuid "048e3411-351e-4d6b-b62c-4cb98ff7ba2d")
+		(uuid "6735c8d6-edc7-463a-afea-3bc354fbecc1")
 	)
 	(label "+12V"
-		(at 88.9 127 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 0.762 0.762)
-			)
-			(justify right bottom)
-		)
-		(uuid "36587831-00d2-4466-b70d-3a708d3dbb20")
-	)
-	(label "GND"
-		(at 88.9 119.38 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 0.762 0.762)
-			)
-			(justify right bottom)
-		)
-		(uuid "7518a766-060a-402b-a461-f91ca83dc72a")
-	)
-	(label "+5V"
-		(at 114.3 68.58 180)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 0.762 0.762)
-			)
-			(justify right bottom)
-		)
-		(uuid "9c7399b8-6a58-4b1d-88f5-765bce79e132")
-	)
-	(label "GND"
-		(at 99.06 104.14 0)
+		(at 114.3 68.58 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -1807,18 +1971,18 @@
 			)
 			(justify left bottom)
 		)
-		(uuid "9cbfabea-2beb-43b1-82f0-11c6d2f00f57")
+		(uuid "a59b5d69-7e35-41a7-98c9-c7ae20e123a7")
 	)
 	(label "GND"
-		(at 99.06 78.74 0)
+		(at 105.41 132.08 180)
 		(fields_autoplaced yes)
 		(effects
 			(font
 				(size 0.762 0.762)
 			)
-			(justify left bottom)
+			(justify right bottom)
 		)
-		(uuid "a73a4d7e-a7fd-480e-aa00-dac9824f375e")
+		(uuid "aeec6ba0-9a16-4bd3-b984-1f0527431c57")
 	)
 	(label "GND"
 		(at 99.06 91.44 0)
@@ -1830,17 +1994,6 @@
 			(justify left bottom)
 		)
 		(uuid "b03b6c58-403f-47a8-a642-356e6ce1de3f")
-	)
-	(label "+12V"
-		(at 99.06 76.2 0)
-		(fields_autoplaced yes)
-		(effects
-			(font
-				(size 0.762 0.762)
-			)
-			(justify left bottom)
-		)
-		(uuid "ecb57f46-1008-43e3-a6f4-4e6f7d946c9f")
 	)
 	(symbol
 		(lib_id "Sensor_Motion:MPU-9250")
@@ -1950,8 +2103,9 @@
 		)
 	)
 	(symbol
+		(lib_name "pie:3S_Lipo_Battery_5200mAh")
 		(lib_id "pie:3S_Lipo_Battery_5200mAh")
-		(at 105.41 123.19 90)
+		(at 137.16 129.54 90)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
@@ -1960,7 +2114,7 @@
 		(fields_autoplaced yes)
 		(uuid "57fced63-adf5-40d1-80c2-1451310fd393")
 		(property "Reference" "U9"
-			(at 98.425 113.03 0)
+			(at 130.175 119.38 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1970,7 +2124,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 105.41 123.19 0)
+			(at 137.16 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1978,7 +2132,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 105.41 123.19 0)
+			(at 137.16 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1987,7 +2141,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 105.41 123.19 0)
+			(at 137.16 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -1996,7 +2150,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 105.41 123.19 0)
+			(at 137.16 129.54 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2177,96 +2331,17 @@
 		)
 	)
 	(symbol
-		(lib_id "PIE_Symbol_Libary:Nidec_Motors")
-		(at 93.98 80.01 90)
-		(mirror x)
+		(lib_id "PIE_Symbol_Libary:xt-60")
+		(at 110.49 127 270)
 		(unit 1)
 		(exclude_from_sim no)
 		(in_bom yes)
 		(on_board yes)
 		(dnp no)
-		(uuid "6c5e3024-c183-4120-bfc2-08a676318146")
-		(property "Reference" "U4"
-			(at 93.98 91.44 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Value" "~"
-			(at 93.98 88.9 90)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Footprint" ""
-			(at 93.98 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Datasheet" ""
-			(at 93.98 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(property "Description" ""
-			(at 93.98 80.01 0)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(hide yes)
-			)
-		)
-		(pin ""
-			(uuid "86cc4562-e056-4da9-b554-4a16dae98a74")
-		)
-		(pin ""
-			(uuid "f3507518-c2af-469b-aea5-432584a2140e")
-		)
-		(pin ""
-			(uuid "25c4cdc2-a63f-42f1-b90b-074a48b94e4c")
-		)
-		(pin ""
-			(uuid "a7322f38-6ccf-48cf-8298-6bebca4f6453")
-		)
-		(pin ""
-			(uuid "96604882-6f98-4209-9040-a9ed70be7c77")
-		)
-		(instances
-			(project "PIE_Final_Project_Schematic"
-				(path "/c3d1a812-138f-41e1-a7f0-a0919706c681"
-					(reference "U4")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_name "PIE_Symbol_Libary:Nidec_Motors")
-		(lib_id "PIE_Symbol_Libary:Nidec_Motors")
-		(at 93.98 105.41 90)
-		(mirror x)
-		(unit 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(dnp no)
-		(uuid "caf7f4ec-2100-4183-ad5d-b9e7250d6491")
+		(fields_autoplaced yes)
+		(uuid "c9ef830d-61fc-4542-b6e1-48c2d7d71a3f")
 		(property "Reference" "U3"
-			(at 93.98 116.84 90)
+			(at 109.982 124.714 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2275,7 +2350,7 @@
 			)
 		)
 		(property "Value" "~"
-			(at 93.98 114.3 90)
+			(at 111.125 120.65 90)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2283,7 +2358,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 93.98 105.41 0)
+			(at 110.49 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2292,7 +2367,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 93.98 105.41 0)
+			(at 110.49 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2301,7 +2376,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 93.98 105.41 0)
+			(at 110.49 127 0)
 			(effects
 				(font
 					(size 1.27 1.27)
@@ -2310,22 +2385,19 @@
 			)
 		)
 		(pin ""
-			(uuid "0ca46c83-b0d0-4b3f-856f-6c5e0175cbc6")
+			(uuid "50343ff0-86d8-407a-8020-7a541df746f7")
 		)
 		(pin ""
-			(uuid "eda05fa8-bcd5-4b49-b378-6bdf7e30fe88")
+			(uuid "5ce3756e-c903-4218-b23d-1b6f6d8c11b2")
 		)
 		(pin ""
-			(uuid "a43aebac-45ca-4891-8500-da4cb65f97ce")
+			(uuid "77c056b2-2d7d-48cd-a90a-aee05f40ec09")
 		)
 		(pin ""
-			(uuid "88dc5b80-0cee-468d-abe7-7868c47d1c53")
-		)
-		(pin ""
-			(uuid "a06c8639-755d-4bcd-a514-68c671c88437")
+			(uuid "69adf06e-de26-430a-83cb-870f4a855fc1")
 		)
 		(instances
-			(project "PIE_Final_Project_Schematic"
+			(project ""
 				(path "/c3d1a812-138f-41e1-a7f0-a0919706c681"
 					(reference "U3")
 					(unit 1)
@@ -2334,7 +2406,74 @@
 		)
 	)
 	(symbol
-		(lib_name "PIE_Symbol_Libary:Nidec_Motors")
+		(lib_id "Switch:SW_Push")
+		(at 100.33 128.27 0)
+		(unit 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(dnp no)
+		(uuid "d7eb702e-92d9-456d-9a89-52b80746182d")
+		(property "Reference" "SW1"
+			(at 100.33 121.92 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Value" "SW_Push"
+			(at 100.33 124.206 0)
+			(effects
+				(font
+					(size 0.762 0.762)
+				)
+			)
+		)
+		(property "Footprint" ""
+			(at 100.33 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Datasheet" "~"
+			(at 100.33 123.19 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(property "Description" "Push button switch, generic, two pins"
+			(at 100.33 128.27 0)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(hide yes)
+			)
+		)
+		(pin "2"
+			(uuid "dd93f693-c608-47c9-b7d6-6a2486e2d12e")
+		)
+		(pin "1"
+			(uuid "0899024a-3e5c-4a78-9797-80a87fde675f")
+		)
+		(instances
+			(project ""
+				(path "/c3d1a812-138f-41e1-a7f0-a0919706c681"
+					(reference "SW1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "PIE_Symbol_Libary:Nidec_Motors")
 		(at 93.98 92.71 90)
 		(mirror x)
