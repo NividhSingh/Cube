@@ -1901,7 +1901,7 @@
 		)
 		(uuid "66e107cc-4267-45bd-ac6f-a79fe97bad7f")
 	)
-	(text "3S Lipo Battery \n5200mAh"
+	(text "12V Lipo Battery \n2200mAh"
 		(exclude_from_sim no)
 		(at 133.35 137.16 90)
 		(effects
@@ -2103,7 +2103,6 @@
 		)
 	)
 	(symbol
-		(lib_name "pie:3S_Lipo_Battery_5200mAh")
 		(lib_id "pie:3S_Lipo_Battery_5200mAh")
 		(at 137.16 129.54 90)
 		(unit 1)
