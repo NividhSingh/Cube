@@ -183,8 +183,7 @@
             <div
               class="point"
               style="top: 78%; left: 13%"
-              data-info="Switch: A manual power control component integrated into the circuit to enable or disable the entire system’s power from the battery.
-"
+              data-info="Switch: A manual power control component integrated into the circuit to enable or disable the entire system’s power from the battery."
             ></div>
             <div
               class="point"
@@ -212,15 +211,65 @@
             Figure 1: Electrical schematic showing the connections between
             components.
           </figcaption>
+         
         </figure>
-
         <p class="my-4"></p>
+        
+        <p>Click on the red dots above or read below to understand each part</p>
+        <ul class="mt-6 text-left list-disc list-inside text-gray-700">
+          <li><strong>12V Nidec brushless servo motor:</strong> A high-performance motor capable of precise speed and position control when driven by a pulse-width modulated (PWM) signal. It connects to our flywheel via the motor shaft to generate rotational energy that allows our cube to balance.</li>
+          <li><strong>Arduino Nano:</strong> Microcontroller used for generating PWM signals for the servo motor and processing sensor data from the IMU.</li>
+          <li><strong>Perforated Board:</strong> A prototyping board with pre-drilled holes and copper pads that was used for securely mounting and interconnecting the Arduino Nano, motor connections, and IMU through electrical soldering.</li>
+          <li><strong>XT60 Connector:</strong> High-current DC connector used to link the LiPo battery’s output to the system, ensuring a secure power connection.</li>
+          <li><strong>2200 mAh, 12V LiPo battery:</strong> A rechargeable battery providing a stable 12V supply and sufficient capacity to power the motor, control electronics, and sensors.</li>
+          <li><strong>Switch:</strong> A manual power control component integrated into the circuit to enable or disable the entire system’s power from the battery.</li>
+          <li><strong>MPU9250 (IMU):</strong> An inertial measurement unit that combines a 3-axis accelerometer, 3-axis gyroscope, and a 3-axis magnetometer, providing real-time orientation, movement, position, and magnetic field data for enhanced system analysis and control feedback.</li>
+        </ul>
         <!-- Spacer -->
-        <p class="text-lg"></p>
       </div>
     </div>
 
-    <script>
+    <div
+    id="modal"
+    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden"
+  >
+    <div
+      class="bg-white rounded-lg p-6 max-w-md w-full shadow-lg text-center"
+    >
+      <p id="modal-text" class="text-gray-800 text-lg"></p>
+      <button
+        id="close-button"
+        class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const points = document.querySelectorAll(".point");
+    const modal = document.getElementById("modal");
+    const modalText = document.getElementById("modal-text");
+    const closeButton = document.getElementById("close-button");
+
+    points.forEach((point) => {
+      point.addEventListener("click", () => {
+        const info = point.getAttribute("data-info");
+        modalText.textContent = info;
+        modal.classList.remove("hidden");
+      });
+    });
+
+    closeButton.addEventListener("click", () => {
+      modal.classList.add("hidden");
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener("click", (e) => {
+      if (e.target === modal) {
+        modal.classList.add("hidden");
+      }
+    });
       const hamburger = document.getElementById("hamburger");
       const menu = document.getElementById("menu");
 
@@ -235,7 +284,6 @@
           menu.classList.remove("active");
         }
       });
-      const points = document.querySelectorAll(".point");
       const image = document.querySelector(".image-container img");
       const container = document.querySelector(".image-container");
 
@@ -263,31 +311,6 @@
       // Update positions on load and resize
       window.addEventListener("resize", updateDotPositions);
       window.addEventListener("load", updateDotPositions);
-
-      points.forEach((point) => {
-        point.addEventListener("click", (e) => {
-          const info = point.getAttribute("data-info");
-          popup.style.display = "block";
-          popup.textContent = info;
-
-          // Get the bounding rectangle of the image container
-          const containerRect = document
-            .querySelector(".image-container")
-            .getBoundingClientRect();
-
-          // Get the popup dimensions
-          const popupWidth = popup.offsetWidth;
-          const popupHeight = popup.offsetHeight;
-
-          // Calculate the position, offsetting for the popup dimensions
-          popup.style.top = `${
-            e.clientY - containerRect.top - popupHeight - 10
-          }px`; // Adjust height for arrow
-          popup.style.left = `${
-            e.clientX - containerRect.left - popupWidth / 2
-          }px`; // Center horizontally
-        });
-      });
 
       // Hide popup when clicking outside
       document.addEventListener("click", (e) => {
