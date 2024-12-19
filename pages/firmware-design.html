@@ -1,155 +1,182 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive 3D Cube</title>
-  <style>
-    /* Scene styles for perspective */
-    .scene {
-      width: 200px;
-      height: 200px;
-      perspective: 600px;
-      margin: 100px auto;
-      position: relative;
-    }
-
-    /* Cube container with 3D transform styles */
-    .cube {
-      width: 100%;
-      height: 100%;
-      position: relative;
-      transform-style: preserve-3d;
-      transform: translateZ(-100px) rotateX(0deg) rotateY(0deg);
-      transition: transform 0.5s;
-      cursor: grab;
-    }
-
-    /* Cube faces */
-    .cube__face {
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 1.5em;
-      font-weight: bold;
-      color: white;
-      backface-visibility: hidden;
-    }
-
-    .cube__face--front  { background: blue; transform: rotateY(  0deg) translateZ(100px); }
-    .cube__face--back   { background: red; transform: rotateY(180deg) translateZ(100px); }
-    .cube__face--right  { background: green; transform: rotateY( 90deg) translateZ(100px); }
-    .cube__face--left   { background: yellow; transform: rotateY(-90deg) translateZ(100px); }
-    .cube__face--top    { background: purple; transform: rotateX( 90deg) translateZ(100px); }
-    .cube__face--bottom { background: pink; transform: rotateX(-90deg) translateZ(100px); }
-
-    /* Arrow controls */
-    .arrows {
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .arrow {
-      width: 40px;
-      height: 40px;
-      background-color: #333;
-      color: white;
-      font-size: 24px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      position: absolute;
-    }
-
-    .arrow:hover {
-      background-color: #555;
-    }
-
-    .arrow.up { top: -60px; left: calc(50% - 20px); }
-    .arrow.down { bottom: -60px; left: calc(50% - 20px); }
-    .arrow.left { left: -60px; top: calc(50% - 20px); }
-    .arrow.right { right: -60px; top: calc(50% - 20px); }
-  </style>
-</head>
-<body>
-  <div class="scene">
-    <div class="cube" id="cube">
-      <div class="cube__face cube__face--front">Front</div>
-      <div class="cube__face cube__face--back">Back</div>
-      <div class="cube__face cube__face--right">Right</div>
-      <div class="cube__face cube__face--left">Left</div>
-      <div class="cube__face cube__face--top">Top</div>
-      <div class="cube__face cube__face--bottom">Bottom</div>
-    </div>
-    <div class="arrows">
-      <div class="arrow up" onclick="rotateCube('up')">↑</div>
-      <div class="arrow down" onclick="rotateCube('down')">↓</div>
-      <div class="arrow left" onclick="rotateCube('left')">←</div>
-      <div class="arrow right" onclick="rotateCube('right')">→</div>
-    </div>
-  </div>
-
-  <script>
-    const cube = document.getElementById('cube');
-    let isDragging = false;
-    let startX, startY;
-    let currentX = 0, currentY = 0;
-
-    // Handle mouse down
-    cube.addEventListener('mousedown', (e) => {
-      isDragging = true;
-      startX = e.clientX;
-      startY = e.clientY;
-      cube.style.transition = 'none'; // Disable transition during drag
-    });
-
-    // Handle mouse move
-    window.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      const deltaX = e.clientX - startX;
-      const deltaY = e.clientY - startY;
-      currentX -= deltaY * 0.5; // Correct dragging direction
-      currentY += deltaX * 0.5;
-      cube.style.transform = `translateZ(-100px) rotateX(${currentX}deg) rotateY(${currentY}deg)`;
-      startX = e.clientX;
-      startY = e.clientY;
-    });
-
-    // Handle mouse up
-    window.addEventListener('mouseup', () => {
-      if (!isDragging) return;
-      isDragging = false;
-      cube.style.transition = 'transform 0.5s'; // Enable transition
-      snapToNearestFace();
-    });
-
-    // Snap cube to the nearest face
-    function snapToNearestFace() {
-      const snapX = Math.round(currentX / 90) * 90;
-      const snapY = Math.round(currentY / 90) * 90;
-      currentX = snapX;
-      currentY = snapY;
-      cube.style.transform = `translateZ(-100px) rotateX(${snapX}deg) rotateY(${snapY}deg)`;
-    }
-
-    // Rotate cube using arrow controls
-    function rotateCube(direction) {
-      switch (direction) {
-        case 'up': currentX -= 90; break;
-        case 'down': currentX += 90; break;
-        case 'left': currentY -= 90; break;
-        case 'right': currentY += 90; break;
+  <head>
+    <link href="../prism.css" rel="stylesheet" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Firmware Design</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom transition for smooth scrolling */
+      html {
+        scroll-behavior: smooth;
       }
-      cube.style.transform = `translateZ(-100px) rotateX(${currentX}deg) rotateY(${currentY}deg)`;
-    }
-  </script>
-</body>
+      .hamburger-menu {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 50;
+        cursor: pointer;
+      }
+      .menu-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 40;
+      }
+      .menu-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .menu-overlay a {
+        text-decoration: none;
+        color: white;
+        font-size: 1.5rem;
+        margin: 1rem 0;
+        transition: color 0.3s ease;
+      }
+      .menu-overlay a:hover {
+        color: gray;
+      }
+    </style>
+  </head>
+  <body class="font-sans">
+    <!-- Top-right Home Button -->
+    <a href="../index.html" class="absolute top-4 left-4 z-50">
+      <p class="text-white text-lg md:text-2xl mt-4">The Cube</p>
+    </a>
+    <!-- Hamburger Menu -->
+    <div id="hamburger" class="hamburger-menu absolute top-4">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-8 w-8 text-white"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M4 6h16M4 12h16m-7 6h7"
+        />
+      </svg>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div id="menu" class="menu-overlay">
+      <a href="../index.html">Home</a>
+      <a href="system-overview.html">System Overview</a>
+      <a href="our-journey.html">Our Journey</a>
+      <a href="bill-of-materials.html">Bill of Materials</a>
+      <a href="mechanical-design.html">Mechanical Design</a>
+      <a href="firmware-design.html">Firmware Design</a>
+      <a href="electrical-design.html">Electrical Design</a>
+    </div>
+
+    <!-- Header Section with Background Image -->
+    <div
+      class="relative h-96 bg-cover bg-center"
+      style="background-image: url('../images/cube/cube_02.jpeg')"
+    >
+      <div
+        class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center"
+      >
+        <h1 class="text-white text-4xl font-bold">Firmware Design</h1>
+      </div>
+    </div>
+
+    <div class="py-12 bg-gray-100">
+      <div class="container mx-auto px-6">
+        <!-- Flow Chart Section -->
+        <div class="mb-6 bg-gray-200 p-4 rounded-lg shadow">
+          <button
+            class="w-full bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            onclick="toggleDropdown('flow-chart')"
+          >
+            Toggle Flow Chart
+          </button>
+          <div id="flow-chart" class="hidden mt-4">
+            <img
+              src="../images/Code Flow Chart.jpg"
+              alt="Interactive Map"
+              class="mx-auto max-w-[60%] h-auto mb-6"
+            />
+          </div>
+        </div>
+
+        <!-- Code Block Section -->
+        <div class="bg-gray-200 p-4 rounded-lg shadow">
+          <button
+            class="w-full bg-gray-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            onclick="toggleDropdown('code-block-container')"
+          >
+            Toggle Code
+          </button>
+          <div id="code-block-container" class="hidden mt-4">
+            <div class="mt-12 bg-gray-300 text-black p-4 rounded-lg shadow-lg">
+              <h2 class="text-xl font-bold mb-4">Full Code</h2>
+              <pre class="">
+                <code id="code-block" class="language-ino">// Code will appear here</code>
+              </pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../prism.js"></script>
+    <script>
+      function toggleDropdown(id) {
+        const element = document.getElementById(id);
+        element.classList.toggle('hidden');
+      }
+
+      // Fetch code from a local file and display it
+      async function fetchLocalCode() {
+        const codeBlock = document.getElementById("code-block");
+        const localPath = "../pid/pid.ino"; // Update with the relative path to your .ino file
+
+        try {
+          const response = await fetch(localPath);
+          if (!response.ok) {
+            throw new Error("Failed to fetch the code.");
+          }
+
+          const code = await response.text();
+          codeBlock.textContent = code.trim(); // Set fetched code into the code block
+        } catch (error) {
+          console.error(error);
+          codeBlock.textContent =
+            "Unable to fetch the code. Please check the file path.";
+        }
+      }
+
+      // Call the function to load code
+      fetchLocalCode();
+
+      const hamburger = document.getElementById("hamburger");
+      const menu = document.getElementById("menu");
+
+      // Toggle the menu when the hamburger icon is clicked
+      hamburger.addEventListener("click", () => {
+        menu.classList.toggle("active");
+      });
+
+      // Close the menu when a link is clicked
+      menu.addEventListener("click", (event) => {
+        if (event.target.tagName === "A") {
+          menu.classList.remove("active");
+        }
+      });
+    </script>
+  </body>
 </html>
