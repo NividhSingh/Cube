@@ -103,6 +103,17 @@
 
     <div class="py-12 bg-gray-100">
       <div class="container mx-auto px-6">
+        <p class="my-4"></p>
+        <p class="text-lg">
+          The system was programmed in c++ to run on an Arduino Nano. We used a
+          PID controller with angle as the error to produce the PWM output for
+          the motor. We also used the Madgwick filter to reduce gyroscope drift.
+          This filter works by using the gravity vector to counteract the drift.
+          Click either of the sections below to learn more about the code.
+        </p>
+
+        <p class="my-4"></p>
+
         <!-- Flow Chart Section -->
         <div class="mb-6 bg-gray-200 p-4 rounded-lg shadow">
           <button
@@ -198,26 +209,29 @@
           <!-- Acknowledgments Section -->
           <div>
             <h3 class="text-lg font-bold mb-4">Acknowledgments</h3>
-            <p class="text-sm">
-              Special thanks to our PIE instructors.
-            </p>
+            <p class="text-sm">Special thanks to our PIE instructors.</p>
           </div>
         </div>
         <!-- Footer Bottom -->
         <div class="mt-6 border-t border-gray-700 pt-4 text-center">
           <p class="text-sm">
             &copy; 2024 The Cube Project. Licensed under the
-            <a href="https://opensource.org/licenses/MIT" class="hover:underline text-blue-400" target="_blank">MIT License</a>.
+            <a
+              href="https://opensource.org/licenses/MIT"
+              class="hover:underline text-blue-400"
+              target="_blank"
+              >MIT License</a
+            >.
           </p>
         </div>
       </div>
     </footer>
-    
+
     <script src="../prism.js"></script>
     <script>
       function toggleDropdown(id) {
         const element = document.getElementById(id);
-        element.classList.toggle('hidden');
+        element.classList.toggle("hidden");
       }
 
       // Fetch code from a local file and display it
