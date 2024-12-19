@@ -1,16 +1,499 @@
-<div
-  id="modal"
-  class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden z-50"
->
-  <div
-    class="bg-white rounded-lg p-6 max-w-lg w-full shadow-2xl transform transition-transform scale-95 text-center"
-  >
-    <p id="modal-text" class="text-gray-800 text-lg font-medium"></p>
-    <button
-      id="close-button"
-      class="mt-4 px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400"
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive Hero Header with Gallery and Cards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom transition for smooth scrolling */
+      html {
+        scroll-behavior: smooth;
+      }
+      .carousel-container {
+        position: relative;
+        height: 80vh;
+        max-height: 800px;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+      .carousel-item {
+        position: absolute;
+        transition: transform 0.5s ease, opacity 0.5s ease;
+        opacity: 0;
+        height: 100%;
+        width: auto;
+        max-width: 100%;
+        object-fit: contain;
+      }
+      .carousel-item.active {
+        opacity: 1;
+        transform: translateX(0);
+        z-index: 3;
+      }
+      .carousel-item.left {
+        transform: translateX(-25%);
+        opacity: 0.8;
+        z-index: 2;
+      }
+      .carousel-item.right {
+        transform: translateX(25%);
+        opacity: 0.8;
+        z-index: 2;
+      }
+      .card {
+        position: relative;
+        overflow: hidden;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+      .card:hover {
+        transform: scale(1.05);
+      }
+      .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .card-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+        transition: opacity 0.3s ease;
+        text-align: center;
+        padding: 1rem;
+      }
+      .card-description {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .card:hover .card-description {
+        opacity: 1;
+      }
+      .hamburger-menu {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        z-index: 50;
+        cursor: pointer;
+      }
+      .menu-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.3s ease;
+        z-index: 40;
+      }
+      .menu-overlay.active {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .menu-overlay a {
+        text-decoration: none;
+        color: white;
+        font-size: 1.5rem;
+        margin: 1rem 0;
+        transition: color 0.3s ease;
+      }
+      .menu-overlay a:hover {
+        color: gray;
+      }
+    </style>
+  </head>
+  <body class="font-sans">
+    <!-- Top-right Home Button -->
+    <a href="index.html" class="absolute top-4 left-4 z-50">
+      <p class="text-white text-lg md:text-2xl mt-4">The Cube</p>
+      <!-- <img
+        src="images/home.jpg"
+        alt="Home"
+        class="w-20 h-20 hover:opacity-75 transition-opacity"
+      /> -->
+    </a>
+
+    <!-- Hamburger Menu -->
+    <div id="hamburger" class="hamburger-menu absolute top-4">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-8 w-8 text-white"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M4 6h16M4 12h16m-7 6h7"
+        />
+      </svg>
+    </div>
+
+    <!-- Menu Overlay -->
+    <div id="menu" class="menu-overlay">
+      <a href="index.html">Home</a>
+      <a href="pages/system-overview.html">System Overview</a>
+      <a href="pages/our-journey.html">Our Journey</a>
+      <a href="pages/bill-of-materials.html">Bill of Materials</a>
+      <a href="pages/gallery.html">Gallery</a>
+      <a href="pages/mechanical-design.html">Mechanical Design</a>
+      <a href="pages/firmware-design.html">Firmware Design</a>
+      <a href="pages/electrical-design.html">Electical Design</a>
+    </div>
+
+    <!-- Hero Header -->
+    <div
+      class="relative h-screen bg-cover bg-center"
+      style="background-image: url('images/cube/cube_02.jpeg')"
     >
-      Close
-    </button>
-  </div>
-</div>
+      <div
+        class="absolute inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center text-center"
+      >
+        <h1 class="text-white text-5xl md:text-7xl font-bold">The Cube</h1>
+        <p class="text-white text-lg md:text-2xl mt-4">
+          Our team built a cube that can balance on one edge using a flywheel to
+          stay balanced.
+        </p>
+      </div>
+      <a
+        href="#project-demonstration"
+        class="absolute bottom-10 left-1/2 transform -translate-x-1/2 text-white text-lg"
+      >
+        See More
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6 inline-block ml-1"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </a>
+    </div>
+
+    <!-- Project Demonstration Section -->
+    <div id="project-demonstration" class="py-12 bg-gray-100">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-6">Project Demonstration</h2>
+        <div
+          class="relative mx-auto max-w-4xl"
+          style="aspect-ratio: 16/9; position: relative"
+        >
+          <iframe
+            class="absolute top-0 left-0 w-full h-full"
+            src="https://www.youtube.com/embed/7xMAoLws63E?si=ixS99MFvx7ul04hr"
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards Section -->
+    <div id="cards" class="py-12 bg-gray-100">
+      <div
+        class="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+      >
+        <!-- Card 1 -->
+        <div
+          class="card"
+          onclick="window.location.href='pages/system-overview.html'"
+        >
+          <img src="https://via.placeholder.com/400x300" alt="Card 1" />
+          <div class="card-overlay">
+            <h2 class="text-2xl font-bold">System Overview</h2>
+            <p class="card-description mt-2">
+              Details about how the system works.
+            </p>
+          </div>
+        </div>
+        <!-- Card 6 -->
+        <div
+          class="card"
+          onclick="window.location.href='pages/our-journey.html'"
+        >
+          <img src="images/cards/ourjourney.webp" alt="Card 6" />
+          <div class="card-overlay">
+            <h2 class="text-2xl font-bold">Our Journey</h2>
+            <p class="card-description mt-2">
+              See our timeline and progress through the project.
+            </p>
+          </div>
+        </div>
+        <!-- Card 2 -->
+        <div
+          class="card"
+          onclick="window.location.href='pages/bill-of-materials.html'"
+        >
+          <img src="images/cards/piggy_bank.png" alt="Card 2" />
+          <div class="card-overlay">
+            <h2 class="text-2xl font-bold">Bill of Materials</h2>
+            <p class="card-description mt-2">
+              Learn more about how we spent our $250 dollar.
+            </p>
+          </div>
+        </div>
+        <!-- Card 3 -->
+        <div
+          class="card"
+          onclick="window.location.href='pages/mechanical-design.html'"
+        >
+          <img src="images/cards/mechanical_design.png" alt="Card 3" />
+          <div class="card-overlay">
+            <h2 class="text-2xl font-bold">Mechanical Design</h2>
+            <p class="card-description mt-2">
+              This is the description for Card 3.
+            </p>
+          </div>
+        </div>
+        <!-- Card 4 -->
+        <div
+          class="card"
+          onclick="window.location.href='pages/firmware-design.html'"
+        >
+          <img src="images/cards/code.png" alt="Card 4" />
+          <div class="card-overlay">
+            <h2 class="text-2xl font-bold">Firmware Design</h2>
+            <p class="card-description mt-2">
+              This is the description for Card 4.
+            </p>
+          </div>
+        </div>
+        <!-- Card 5 -->
+        <div
+          class="card"
+          onclick="window.location.href='pages/electrical-design.html'"
+        >
+          <img src="images/cards/electrical.jpg" alt="Card 5" />
+          <div class="card-overlay">
+            <h2 class="text-2xl font-bold">Electrical Design</h2>
+            <p class="card-description mt-2">
+              This is the description for Card 5.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gallery Section -->
+    <div id="gallery" class="relative flex flex-col items-center bg-gray-100">
+      <div class="relative w-full max-w-4xl overflow-hidden">
+        <div id="carousel" class="carousel-container">
+          <img
+            src="images/cube/cube_01.jpeg"
+            alt="Image 1"
+            class="carousel-item active"
+          />
+          <img
+            src="images/cube/cube_04.jpeg"
+            alt="Image 2"
+            class="carousel-item right"
+          />
+          <img
+            src="images/cube/cube_02.jpeg"
+            alt="Image 3"
+            class="carousel-item right"
+          />
+          <img
+            src="images/cube/cube_03.jpeg"
+            alt="Image 4"
+            class="carousel-item right"
+          />
+        </div>
+      </div>
+    
+      <a href="pages/gallery.html" class="text-lg">Click Here to See All Photos</p></div>
+
+    <!-- The Team Section -->
+    <div id="team" class="py-12 bg-gray-100">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-8">The Team</h2>
+        <div id="team-members" class="flex flex-wrap justify-center gap-8">
+          <!-- Team Member 1 -->
+          <div class="team-member flex flex-col items-center">
+            <a
+              href="https://www.linkedin.com/in/nividh-singh/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex flex-col items-center"
+            >
+              <div
+                class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+              >
+                <img
+                  src="images/headshots/nividh.jpg"
+                  alt="Team Member 1"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <p class="mt-4 text-lg font-medium">Nividh Singh</p>
+            </a>
+          </div>
+          <!-- Team Member 2 -->
+          <div class="team-member flex flex-col items-center">
+            <a
+              href="https://www.linkedin.com/in/acheung09/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex flex-col items-center"
+            >
+              <div
+                class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+              >
+                <img
+                  src="images/headshots/anthony.jpg"
+                  alt="Team Member 2"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <p class="mt-4 text-lg font-medium">Anthony Cheung</p>
+            </a>
+          </div>
+          <!-- Team Member 3 -->
+          <div class="team-member flex flex-col items-center">
+            <a
+              href="https://www.linkedin.com/in/cianlinehan/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex flex-col items-center"
+            >
+              <div
+                class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+              >
+                <img
+                  src="images/headshots/cian.jpg"
+                  alt="Team Member 3"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <p class="mt-4 text-lg font-medium">Cian Linehan</p>
+            </a>
+          </div>
+          <!-- Team Member 4 -->
+          <div class="team-member flex flex-col items-center">
+            <a
+              href="https://www.linkedin.com/in/ahan-trivedi/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex flex-col items-center"
+            >
+              <div
+                class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+              >
+                <img
+                  src="images/headshots/ahan.jpg"
+                  alt="Team Member 4"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <p class="mt-4 text-lg font-medium">Ahan Trivedi</p>
+            </a>
+          </div>
+          <!-- Team Member 5 -->
+          <div class="team-member flex flex-col items-center">
+            <a
+              href="https://www.linkedin.com/in/ishan-porwal/"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex flex-col items-center"
+            >
+              <div
+                class="w-32 h-32 rounded-full overflow-hidden border-4 border-gray-300"
+              >
+                <img
+                  src="images/headshots/ishan.jpg"
+                  alt="Team Member 5"
+                  class="w-full h-full object-cover"
+                />
+              </div>
+              <p class="mt-4 text-lg font-medium">Ishan Porwal</p>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const hamburger = document.getElementById("hamburger");
+      const menu = document.getElementById("menu");
+
+      // Toggle the menu when the hamburger icon is clicked
+      hamburger.addEventListener("click", () => {
+        menu.classList.toggle("active");
+      });
+
+      // Close the menu when a link is clicked
+      menu.addEventListener("click", (event) => {
+        if (event.target.tagName === "A") {
+          menu.classList.remove("active");
+        }
+      });
+
+      const carouselItems = document.querySelectorAll(".carousel-item");
+      let currentIndex = 0;
+
+      function updateCarousel() {
+        const totalItems = carouselItems.length;
+
+        // Reset all items
+        carouselItems.forEach((item, index) => {
+          item.classList.remove("active", "left", "right");
+        });
+
+        // Update classes for current, previous, and next items
+        const previousIndex = (currentIndex - 1 + totalItems) % totalItems;
+        const nextIndex = (currentIndex + 1) % totalItems;
+
+        carouselItems[currentIndex].classList.add("active");
+        carouselItems[previousIndex].classList.add("left");
+        carouselItems[nextIndex].classList.add("right");
+      }
+
+      // Cycle through the carousel items
+      setInterval(() => {
+        currentIndex = (currentIndex + 1) % carouselItems.length;
+        updateCarousel();
+      }, 3000);
+
+      // Initialize carousel
+      updateCarousel();
+
+      function shuffleTeamMembers() {
+        const teamContainer = document.getElementById("team-members");
+        const teamMembers = Array.from(teamContainer.children);
+        teamMembers.sort(() => Math.random() - 0.5); // Shuffle the array
+        teamMembers.forEach((member) => teamContainer.appendChild(member)); // Re-append in random order
+      }
+
+      document.addEventListener("DOMContentLoaded", shuffleTeamMembers);
+    </script>
+  </body>
+</html>
